@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using scada_back.Models;
 
 namespace scada_back.Database
 {
@@ -8,5 +9,8 @@ namespace scada_back.Database
         : base(options)
         {
         }
+
+        public DbSet<User> Users { get; set; }
+
     }
 }
