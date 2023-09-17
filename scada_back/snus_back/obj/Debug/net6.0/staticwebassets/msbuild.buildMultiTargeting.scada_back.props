@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\scada_back.props" />
+</Project>

@@ -5,11 +5,11 @@
 				<form [formGroup]="loginForm" class="login" (ngSubmit)="login()">
 					<div class="login__field">
 						<i class="login__icon fas fa-user"></i>
-						<input id="email" type="text" class="login__input" placeholder="Email">
+						<input formControlName="email" type="text" class="login__input" placeholder="Email">
 					</div>
 					<div class="login__field">
 						<i class="login__icon fas fa-lock"></i>
-						<input id="password" type="password" class="login__input" placeholder="Password">
+						<input formControlName="password" type="password" class="login__input" placeholder="Password">
 					</div>
 					<button type="submit" class="button login__submit">
 						<span class="button__text">Log In Now</span>

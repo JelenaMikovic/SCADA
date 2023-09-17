@@ -25,6 +25,7 @@ export class LoginComponent {
     console.log(' succdasdadsadaessful');
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
+    console.log(email, password)
     console.log('Login succdasdadsadaessful');
     if (this.authService.login(email, password)) {
       console.log('Login successful');

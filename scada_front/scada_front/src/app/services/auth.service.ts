@@ -7,11 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private readonly userKey = 'currentUser';
-  private baseUrl = 'http://localhost:5000/api/user';
+  private baseUrl = 'http://localhost:5184/api/User';
 
   constructor(private http: HttpClient) { }
 
   authenticateUser(email: string, password: string): Observable<any> {
+    console.log(email, password)
     return this.http.get<any>(`${this.baseUrl}/${email}/${password}`);
   }
   
