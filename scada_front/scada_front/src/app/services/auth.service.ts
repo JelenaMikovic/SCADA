@@ -1,18 +1,39 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly userKey = 'currentUser';
+  private baseUrl = 'http://localhost:5000/api/user';
 
+  constructor(private http: HttpClient) { }
+
+  authenticateUser(email: string, password: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${email}/${password}`);
+  }
+  
   login(email: string, password: string): boolean {
-    if (email === 'user@example.com' && password === 'password') {
-      var role = "admin"
-      localStorage.setItem(this.userKey, JSON.stringify({ email, role }));
+    this.authenticateUser(email, password).subscribe(
+      (response) => {console.log('User data:', response);
+
+      if (response) {
+        var role = "notAdmin"
+        if (response.isAdmin) {
+          role = "admin"
+        }
+        localStorage.setItem(this.userKey, JSON.stringify({ email, role }));
+      }
       return true;
-    }
-    return false;
+      },
+      (error) => {
+        console.error('Error:', error);
+        return false;
+      }
+    );
+  return true;
   }
 
   logout(): void {
