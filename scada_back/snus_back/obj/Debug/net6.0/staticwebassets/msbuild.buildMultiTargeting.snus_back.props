@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\snus_back.props" />
+</Project>
