@@ -18,9 +18,11 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 
 // Services
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ITagService, TagService>();
 
 // Repositories
 builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<TagRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
