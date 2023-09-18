@@ -16,16 +16,15 @@ export class NavbarComponent implements OnInit {
   }
 
   isAuthenticated(): boolean {
-    // Use your AuthService method or logic to check authentication status
     return this.authService.isLoggedIn();
   }
 
   hasUserRole(role: string): boolean {
-    // Use your AuthService method to check the user's role
     return this.authService.getUserRole() === role;
   }
 
   public signOut(): void {
+    this.authService.logout()
     this.router.navigate(['/login']);
   }
 }

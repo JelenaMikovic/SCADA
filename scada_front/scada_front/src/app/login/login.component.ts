@@ -22,16 +22,15 @@ export class LoginComponent {
   }
 
   login() {
-    console.log(' succdasdadsadaessful');
+    //console.log(' succdasdadsadaessful');
     const email = this.loginForm.value.email;
     const password = this.loginForm.value.password;
-    console.log(email, password)
-    console.log('Login succdasdadsadaessful');
+    //console.log('Login succdasdadsadaessful');
     if (this.authService.login(email, password)) {
-      console.log('Login successful');
+      //console.log('Login successful');
       // You can navigate to another page or perform other actions here
     } else {
-      console.log('Login failed');
+      //console.log('Login failed');
       // Display an error message or take appropriate action
     }
   }
