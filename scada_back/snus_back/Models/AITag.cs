@@ -9,7 +9,6 @@ namespace scada_back.Models
         public double LowLimit { get; set; }
         public double HighLimit { get; set; }
         public string Unit { get; set; }
-        //public ICollection<Alarm> Alarms { get; set; } = new List<Alarm>();
 
     }
 

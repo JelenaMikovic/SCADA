@@ -16,6 +16,7 @@ namespace scada_back.Database
 
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<Alarm> Alarms { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
