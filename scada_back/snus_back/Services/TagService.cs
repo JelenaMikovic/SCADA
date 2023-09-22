@@ -9,8 +9,7 @@ namespace scada_back.Services
     public class TagService: ITagService
     {
         public TagRepository tagRepository;
-        private static readonly Random random = new Random();
-
+        
         public TagService(TagRepository tagRepository) {
             this.tagRepository = tagRepository;
         }
@@ -25,7 +24,6 @@ namespace scada_back.Services
                     IOAddress = createTagDTO.IOAddress,
                     Value = createTagDTO.Value,
                 };
-                Console.WriteLine("kara1");
                 this.tagRepository.AddTag(tag);
             }
             else if (createTagDTO.Type == 2) {
@@ -167,6 +165,38 @@ namespace scada_back.Services
             throw new NotImplementedException();
         }
 
-
+        public void ToggleIsScanOn(int type, int tagId)
+        {
+            if (type == 3)
+            {
+                DITag tag = tagRepository.GetDITagById(tagId);
+                if (tag != null)
+                {
+                    tag.IsScanOn = !tag.IsScanOn;
+                    tagRepository.UpdateDITag(tag);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else if (type == 4)
+            {
+                AITag tag = tagRepository.GetAITagById(tagId);
+                if (tag != null)
+                {
+                    tag.IsScanOn = !tag.IsScanOn;
+                    tagRepository.UpdateAITag(tag);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
     }
 }

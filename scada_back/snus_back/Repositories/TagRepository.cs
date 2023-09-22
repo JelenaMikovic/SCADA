@@ -29,7 +29,6 @@ namespace scada_back.Repositories
 
         public void AddTag(Tag tag)
         {
-            Console.WriteLine("kara");
             dbContext.Tags.Add(new Tag { Id = 1, Description = "ubicu se", IOAddress = "dasdadasd", Name = "dadasd", Value = 25 });
             dbContext.SaveChanges();
         }

@@ -11,5 +11,6 @@ namespace scada_back.Services.IServices
         public void CreateTag(CreateTagDTO createTagDTO);
         void DeleteTag(int tagId);
         void UpdateTag(UpdateTagDTO updateTagDTO);
+        void ToggleIsScanOn(int tagId, int tagId1);
     }
 }

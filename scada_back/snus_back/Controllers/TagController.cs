@@ -83,7 +83,6 @@ namespace scada_back.Controllers
         {
             try
             {
-                Console.WriteLine("kara2");
                 this.tagService.CreateTag(createTagDTO);
                 return Ok(new { Message = "Tag created successfully" });
             }
@@ -114,6 +113,20 @@ namespace scada_back.Controllers
             {
                 this.tagService.UpdateTag(updateTagDTO);
                 return Ok(new { Message = "Tag updated successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpPut("{type}/{tagId}")]
+        public ActionResult ToggleScan(int type, int tagId)
+        {
+            try
+            {
+                this.tagService.ToggleIsScanOn(type, tagId);
+                return Ok(new { Message = "Scan toggled successfully" });
             }
             catch (Exception e)
             {
