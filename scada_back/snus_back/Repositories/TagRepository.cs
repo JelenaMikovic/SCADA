@@ -29,7 +29,8 @@ namespace scada_back.Repositories
 
         public void AddTag(Tag tag)
         {
-            dbContext.Tags.Add(tag);
+            Console.WriteLine("kara");
+            dbContext.Tags.Add(new Tag { Id = 1, Description = "ubicu se", IOAddress = "dasdadasd", Name = "dadasd", Value = 25 });
             dbContext.SaveChanges();
         }
 
@@ -46,7 +47,10 @@ namespace scada_back.Repositories
             {
                 dbContext.Tags.Remove(tag);
                 dbContext.SaveChanges();
+            } else {
+                throw new Exception(); 
             }
+           
         }
 
         // DIGITAL INPUT - DITAG

@@ -77,6 +77,49 @@ namespace scada_back.Controllers
                 return BadRequest(new { Message = e.Message });
             }
         }
+
+        [HttpPost]
+        public ActionResult CreateTag(CreateTagDTO createTagDTO)
+        {
+            try
+            {
+                Console.WriteLine("kara2");
+                this.tagService.CreateTag(createTagDTO);
+                return Ok(new { Message = "Tag created successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpDelete("{tagId}")]
+        public ActionResult DeleteTag(int tagId)
+        {
+            try
+            {
+                this.tagService.DeleteTag(tagId);
+                return Ok(new { Message = "Tag deleted successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpPut]
+        public ActionResult UpdateTag(UpdateTagDTO updateTagDTO)
+        {
+            try
+            {
+                this.tagService.UpdateTag(updateTagDTO);
+                return Ok(new { Message = "Tag updated successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
     }
 }
 

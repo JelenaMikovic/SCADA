@@ -8,5 +8,8 @@ namespace scada_back.Services.IServices
         public ICollection<TagDTO> getAllTagsByIOAddress(string adress);
         public ICollection<ITDbManagerDTO> GetAllInputTagsDBManager();
         public ICollection<OTDbManagerDTO> GetAllOutputTagsDBManager();
+        public void CreateTag(CreateTagDTO createTagDTO);
+        void DeleteTag(int tagId);
+        void UpdateTag(UpdateTagDTO updateTagDTO);
     }
 }
