@@ -12,42 +12,26 @@ export class TagService {
   constructor(private http: HttpClient) { }
   private baseUrl = 'http://localhost:5184/api/Tag';
 
-
-  getAllOutputTagsDBManager(): Observable<TableOutputTag[]> {
-    return this.http.get<any>(this.baseUrl + "/dbm/output", {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    });
+  getTags(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}`);
   }
 
-  getAllInputTags(): Observable<TableInputTag[]> {
-    return this.http.get<any>(this.baseUrl + "/dbm/input", {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      })
-    });
-  }
+
 }
 
-export interface TableOutputTag {
-  id: number,
-  description: string,
-  value: string,
-  unit: string,
-  type: any
-}
 
-export interface TableInputTag {
-  alarmType?: any;
-  alarmValue?: any;
-  lowLimit?: any;
-  highLimit?: any;
-  id: number,
-  description: string,
-  unit: string,
-  type: any,
-  isScanOn: boolean,
-  scanTime: number,
-  value: number
+
+export interface TagDTO {
+
+  id: number;
+  name:string;
+  description: string;
+  iOAddress:string;
+  value: number;
+  lowLimit?: number;
+  highLimit?: number;
+  unit?: string;
+  tagType: string;
+  isScanOn?: boolean;
+  scanTime?: number;
 }
