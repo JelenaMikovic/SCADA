@@ -6,5 +6,6 @@ namespace scada_back.Services.IServices
     {
         public void AddAlarm(AddAlarmDTO dto);
         void DeleteAlarm(int id);
+        List<AlarmDTO> GetTagsAlarms(int tagId);
     }
 }

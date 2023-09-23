@@ -4,7 +4,7 @@ namespace scada_back.Services.IServices
 {
     public interface ITagService
     {
-        public ICollection<TagDTO> getAllTags();
+        public List<TagDTO> getAllTags();
         public ICollection<TagDTO> getAllTagsByIOAddress(string adress);
         public ICollection<ITDbManagerDTO> GetAllInputTagsDBManager();
         public ICollection<OTDbManagerDTO> GetAllOutputTagsDBManager();

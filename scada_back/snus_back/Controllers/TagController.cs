@@ -16,12 +16,11 @@ namespace scada_back.Controllers
 		}
 
 		[HttpGet]
-		[Route("")]
 		public ActionResult GetAllTags()
 		{
 			try
 			{
-                ICollection<TagDTO> response = this.tagService.getAllTags();
+                List<TagDTO> response = this.tagService.getAllTags();
                 return Ok(response);
 			}
 			catch(Exception e)

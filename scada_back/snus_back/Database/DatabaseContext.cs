@@ -15,7 +15,10 @@ namespace scada_back.Database
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Tag> DOTags { get; set; }
+        public DbSet<AITag> AITags { get; set; }
+        public DbSet<DITag> DITags { get; set; }
+        public DbSet<AOTag> AOTags { get; set; }
         public DbSet<Alarm> Alarms { get; set; }
 
 

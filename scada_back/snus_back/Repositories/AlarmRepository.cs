@@ -25,8 +25,8 @@ namespace scada_back.Repositories
 
         public void AddAlarm(Alarm alarm)
         {
-           this.dbContext.Alarms.Add(alarm);
-           this.dbContext.SaveChanges();
+            this.dbContext.Alarms.Add(alarm);
+            this.dbContext.SaveChanges();
         }
 
         public void UpdateAlarm(Alarm alarm)
@@ -48,4 +48,5 @@ namespace scada_back.Repositories
                 throw new Exception();
             }
         }
+    }
 }

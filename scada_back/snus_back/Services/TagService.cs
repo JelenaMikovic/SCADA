@@ -155,9 +155,74 @@ namespace scada_back.Services
             throw new NotImplementedException();
         }
 
-        public ICollection<TagDTO> getAllTags()
+        public List<TagDTO> getAllTags()
         {
-            throw new NotImplementedException();
+            List<TagDTO> tags = new List<TagDTO>();
+            foreach (Tag tag in tagRepository.GetAllTags())
+            {
+                tags.Add(new TagDTO
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    Description = tag.Description,
+                    IOAddress = tag.IOAddress,
+                    Value = tag.Value,
+                    ScanTime = null,
+                    IsScanOn = null,
+                    LowLimit = null,
+                    HighLimit = null,
+                    Unit = null
+                });
+            }
+            foreach (AITag tag in tagRepository.GetAllAITags())
+            {
+                tags.Add(new TagDTO
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    Description = tag.Description,
+                    IOAddress = tag.IOAddress,
+                    Value = tag.Value,
+                    ScanTime = (int)tag.ScanTime,
+                    IsScanOn = (bool)tag.IsScanOn,
+                    LowLimit = (double)tag.LowLimit,
+                    HighLimit = (double)tag.HighLimit,
+                    Unit = tag.Unit
+                });
+            }
+            foreach (DITag tag in tagRepository.GetAllDITags())
+            {
+                tags.Add(new TagDTO
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    Description = tag.Description,
+                    IOAddress = tag.IOAddress,
+                    Value = tag.Value,
+                    ScanTime = (int)tag.ScanTime,
+                    IsScanOn = (bool)tag.IsScanOn,
+                    LowLimit = null,
+                    HighLimit = null,
+                    Unit = null
+                });
+            }
+            foreach (AOTag tag in tagRepository.GetAllAOTags())
+            {
+                tags.Add(new TagDTO
+                {
+                    Id = tag.Id,
+                    Name = tag.Name,
+                    Description = tag.Description,
+                    IOAddress = tag.IOAddress,
+                    Value = tag.Value,
+                    ScanTime = null,
+                    IsScanOn = null,
+                    LowLimit = (double)tag.LowLimit,
+                    HighLimit = (double)tag.HighLimit,
+                    Unit = tag.Unit
+                }); ;
+            }
+            return tags;
         }
 
         public ICollection<TagDTO> getAllTagsByIOAddress(string adress)

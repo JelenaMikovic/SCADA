@@ -19,17 +19,17 @@ namespace scada_back.Repositories
         // DIGITAL OUTPUT - TAG   
         public List<Tag> GetAllTags()
         {
-            return dbContext.Tags.ToList();
+            return dbContext.DOTags.ToList();
         }
 
         public Tag GetTagById(int id)
         {
-            return dbContext.Tags.FirstOrDefault(t => t.Id == id);
+            return dbContext.DOTags.FirstOrDefault(t => t.Id == id);
         }
 
         public void AddTag(Tag tag)
         {
-            dbContext.Tags.Add(tag);
+            dbContext.DOTags.Add(tag);
             dbContext.SaveChanges();
         }
 
@@ -41,10 +41,10 @@ namespace scada_back.Repositories
 
         public void DeleteTag(int id)
         {
-            var tag = dbContext.Tags.FirstOrDefault(t => t.Id == id);
+            var tag = dbContext.DOTags.FirstOrDefault(t => t.Id == id);
             if (tag != null)
             {
-                dbContext.Tags.Remove(tag);
+                dbContext.DOTags.Remove(tag);
                 dbContext.SaveChanges();
             } else {
                 throw new Exception(); 
@@ -55,17 +55,17 @@ namespace scada_back.Repositories
         // DIGITAL INPUT - DITAG
         public List<DITag> GetAllDITags()
         {
-            return dbContext.Tags.OfType<DITag>().ToList();
+            return dbContext.DITags.ToList();
         }
 
         public DITag GetDITagById(int id)
         {
-            return dbContext.Tags.OfType<DITag>().FirstOrDefault(t => t.Id == id);
+            return dbContext.DITags.FirstOrDefault(t => t.Id == id);
         }
 
         public void AddDITag(DITag diTag)
         {
-            dbContext.Tags.Add(diTag);
+            dbContext.DITags.Add(diTag);
             dbContext.SaveChanges();
         }
 
@@ -77,10 +77,10 @@ namespace scada_back.Repositories
 
         public void DeleteDITag(int id)
         {
-            var diTag = dbContext.Tags.OfType<DITag>().FirstOrDefault(t => t.Id == id);
+            var diTag = dbContext.DITags.FirstOrDefault(t => t.Id == id);
             if (diTag != null)
             {
-                dbContext.Tags.Remove(diTag);
+                dbContext.DITags.Remove(diTag);
                 dbContext.SaveChanges();
             }
         }
@@ -88,17 +88,17 @@ namespace scada_back.Repositories
         // ANALOG OUTPUT - AOTAG
         public List<AOTag> GetAllAOTags()
         {
-            return dbContext.Tags.OfType<AOTag>().ToList();
+            return dbContext.AOTags.ToList();
         }
 
         public AOTag GetAOTagById(int id)
         {
-            return dbContext.Tags.OfType<AOTag>().FirstOrDefault(t => t.Id == id);
+            return dbContext.AOTags.FirstOrDefault(t => t.Id == id);
         }
 
         public void AddAOTag(AOTag aoTag)
         {
-            dbContext.Tags.Add(aoTag);
+            dbContext.AOTags.Add(aoTag);
             dbContext.SaveChanges();
         }
 
@@ -110,10 +110,10 @@ namespace scada_back.Repositories
 
         public void DeleteAOTag(int id)
         {
-            var aoTag = dbContext.Tags.OfType<AOTag>().FirstOrDefault(t => t.Id == id);
+            var aoTag = dbContext.AOTags.FirstOrDefault(t => t.Id == id);
             if (aoTag != null)
             {
-                dbContext.Tags.Remove(aoTag);
+                dbContext.AOTags.Remove(aoTag);
                 dbContext.SaveChanges();
             }
         }
@@ -121,17 +121,17 @@ namespace scada_back.Repositories
         // ANALOG INPUT - AITAG
         public List<AITag> GetAllAITags()
         {
-            return dbContext.Tags.OfType<AITag>().ToList();
+            return dbContext.AITags.ToList();
         }
 
         public AITag GetAITagById(int id)
         {
-            return dbContext.Tags.OfType<AITag>().FirstOrDefault(t => t.Id == id);
+            return dbContext.AITags.FirstOrDefault(t => t.Id == id);
         }
 
         public void AddAITag(AITag aiTag)
         {
-            dbContext.Tags.Add(aiTag);
+            dbContext.AITags.Add(aiTag);
             dbContext.SaveChanges();
         }
 
@@ -143,10 +143,10 @@ namespace scada_back.Repositories
 
         public void DeleteAITag(int id)
         {
-            var aiTag = dbContext.Tags.OfType<AITag>().FirstOrDefault(t => t.Id == id);
+            var aiTag = dbContext.AITags.FirstOrDefault(t => t.Id == id);
             if (aiTag != null)
             {
-                dbContext.Tags.Remove(aiTag);
+                dbContext.AITags.Remove(aiTag);
                 dbContext.SaveChanges();
             }
         }
