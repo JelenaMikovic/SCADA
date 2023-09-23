@@ -119,12 +119,12 @@ namespace scada_back.Controllers
             }
         }
 
-        [HttpPut("{type}/{tagId}")]
-        public ActionResult ToggleScan(int type, int tagId)
+        [HttpPut("{tagId}")]
+        public ActionResult ToggleScan(int tagId)
         {
             try
             {
-                this.tagService.ToggleIsScanOn(type, tagId);
+                this.tagService.ToggleIsScanOn(tagId);
                 return Ok(new { Message = "Scan toggled successfully" });
             }
             catch (Exception e)

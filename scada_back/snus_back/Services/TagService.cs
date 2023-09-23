@@ -16,60 +16,20 @@ namespace scada_back.Services
 
         public void CreateTag(CreateTagDTO createTagDTO)
         {
-            if (createTagDTO.Type == 1) {
-                Tag tag = new Tag
-                {
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                };
-                this.tagRepository.AddTag(tag);
-            }
-            else if (createTagDTO.Type == 2) {
-                AOTag tag = new AOTag
-                {
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    LowLimit = (double)createTagDTO.LowLimit,
-                    HighLimit = (double)createTagDTO.HighLimit,
-                    Unit = createTagDTO.Unit
-                };
-                this.tagRepository.AddAOTag(tag);
-            }
-            else if(createTagDTO.Type == 3) {
-                DITag tag = new DITag
-                {
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    ScanTime = (int)createTagDTO.ScanTime,
-                    IsScanOn = (bool)createTagDTO.IsScanOn
-                };
-                this.tagRepository.AddDITag(tag);
-            }
-            else if (createTagDTO.Type == 4) {
-                AITag tag = new AITag
-                {
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    ScanTime = (int)createTagDTO.ScanTime,
-                    IsScanOn = (bool)createTagDTO.IsScanOn,
-                    LowLimit = (double)createTagDTO.LowLimit,
-                    HighLimit = (double)createTagDTO.HighLimit,
-                    Unit = createTagDTO.Unit
-                };
-                this.tagRepository.AddAITag(tag);
-            }
-            else
+            Tag tag = new Tag
             {
-                throw new Exception();
-            }
+                Name = createTagDTO.Name,
+                Description = createTagDTO.Description,
+                IOAddress = createTagDTO.IOAddress,
+                Value = createTagDTO.Value,
+                ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null,
+                IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null,
+                LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null,
+                HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null,
+                Unit = createTagDTO.Unit,
+                TagType = (TagType)Enum.Parse(typeof(TagType), createTagDTO.Type)
+            };
+            this.tagRepository.AddTag(tag);
         }
 
         public void DeleteTag(int tagId)
@@ -81,68 +41,20 @@ namespace scada_back.Services
 
         public void UpdateTag(UpdateTagDTO createTagDTO)
         {
-            if (createTagDTO.Type == 1)
+            Tag tag = new Tag
             {
-                Tag tag = new Tag
-                {
-                    Id = createTagDTO.Id,
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                };
-                this.tagRepository.UpdateTag(tag);
-            }
-            else if (createTagDTO.Type == 2)
-            {
-                AOTag tag = new AOTag
-                {
-                    Id = createTagDTO.Id,
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    LowLimit = (double)createTagDTO.LowLimit,
-                    HighLimit = (double)createTagDTO.HighLimit,
-                    Unit = createTagDTO.Unit
-                };
-                this.tagRepository.UpdateAOTag(tag);
-            }
-            else if (createTagDTO.Type == 3)
-            {
-                DITag tag = new DITag
-                {
-                    Id = createTagDTO.Id,
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    ScanTime = (int)createTagDTO.ScanTime,
-                    IsScanOn = (bool)createTagDTO.IsScanOn
-                };
-                this.tagRepository.UpdateDITag(tag);
-            }
-            else if (createTagDTO.Type == 4)
-            {
-                AITag tag = new AITag
-                {
-                    Id = createTagDTO.Id,
-                    Name = createTagDTO.Name,
-                    Description = createTagDTO.Description,
-                    IOAddress = createTagDTO.IOAddress,
-                    Value = createTagDTO.Value,
-                    ScanTime = (int)createTagDTO.ScanTime,
-                    IsScanOn = (bool)createTagDTO.IsScanOn,
-                    LowLimit = (double)createTagDTO.LowLimit,
-                    HighLimit = (double)createTagDTO.HighLimit,
-                    Unit = createTagDTO.Unit
-                };
-                this.tagRepository.UpdateAITag(tag);
-            }
-            else
-            {
-                throw new Exception();
-            }
+                Id = createTagDTO.Id,
+                Name = createTagDTO.Name,
+                Description = createTagDTO.Description,
+                IOAddress = createTagDTO.IOAddress,
+                Value = createTagDTO.Value,
+                ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null,
+                IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null,
+                LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null,
+                HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null,
+                Unit = createTagDTO.Unit
+            };
+            this.tagRepository.UpdateTag(tag);
         }
 
         public ICollection<ITDbManagerDTO> GetAllInputTagsDBManager()
@@ -167,60 +79,13 @@ namespace scada_back.Services
                     Description = tag.Description,
                     IOAddress = tag.IOAddress,
                     Value = tag.Value,
-                    ScanTime = null,
-                    IsScanOn = null,
-                    LowLimit = null,
-                    HighLimit = null,
-                    Unit = null
+                    ScanTime = tag.ScanTime.HasValue ? (int?)tag.ScanTime.Value : null, 
+                    IsScanOn = tag.IsScanOn.HasValue ? (bool?)tag.IsScanOn.Value : null,  
+                    LowLimit = tag.LowLimit.HasValue ? (double?)tag.LowLimit.Value : null,  
+                    HighLimit = tag.HighLimit.HasValue ? (double?)tag.HighLimit.Value : null,  
+                    Unit = tag.Unit,
+                    TagType = tag.TagType.ToString()
                 });
-            }
-            foreach (AITag tag in tagRepository.GetAllAITags())
-            {
-                tags.Add(new TagDTO
-                {
-                    Id = tag.Id,
-                    Name = tag.Name,
-                    Description = tag.Description,
-                    IOAddress = tag.IOAddress,
-                    Value = tag.Value,
-                    ScanTime = (int)tag.ScanTime,
-                    IsScanOn = (bool)tag.IsScanOn,
-                    LowLimit = (double)tag.LowLimit,
-                    HighLimit = (double)tag.HighLimit,
-                    Unit = tag.Unit
-                });
-            }
-            foreach (DITag tag in tagRepository.GetAllDITags())
-            {
-                tags.Add(new TagDTO
-                {
-                    Id = tag.Id,
-                    Name = tag.Name,
-                    Description = tag.Description,
-                    IOAddress = tag.IOAddress,
-                    Value = tag.Value,
-                    ScanTime = (int)tag.ScanTime,
-                    IsScanOn = (bool)tag.IsScanOn,
-                    LowLimit = null,
-                    HighLimit = null,
-                    Unit = null
-                });
-            }
-            foreach (AOTag tag in tagRepository.GetAllAOTags())
-            {
-                tags.Add(new TagDTO
-                {
-                    Id = tag.Id,
-                    Name = tag.Name,
-                    Description = tag.Description,
-                    IOAddress = tag.IOAddress,
-                    Value = tag.Value,
-                    ScanTime = null,
-                    IsScanOn = null,
-                    LowLimit = (double)tag.LowLimit,
-                    HighLimit = (double)tag.HighLimit,
-                    Unit = tag.Unit
-                }); ;
             }
             return tags;
         }
@@ -230,33 +95,13 @@ namespace scada_back.Services
             throw new NotImplementedException();
         }
 
-        public void ToggleIsScanOn(int type, int tagId)
+        public void ToggleIsScanOn(int tagId)
         {
-            if (type == 3)
+            Tag tag = tagRepository.GetTagById(tagId);
+            if (tag != null)
             {
-                DITag tag = tagRepository.GetDITagById(tagId);
-                if (tag != null)
-                {
-                    tag.IsScanOn = !tag.IsScanOn;
-                    tagRepository.UpdateDITag(tag);
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            else if (type == 4)
-            {
-                AITag tag = tagRepository.GetAITagById(tagId);
-                if (tag != null)
-                {
-                    tag.IsScanOn = !tag.IsScanOn;
-                    tagRepository.UpdateAITag(tag);
-                }
-                else
-                {
-                    throw new Exception();
-                }
+                tag.IsScanOn = !tag.IsScanOn;
+                tagRepository.UpdateTag(tag);
             }
             else
             {
