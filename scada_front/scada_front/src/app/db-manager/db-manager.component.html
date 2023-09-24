@@ -1,11 +1,12 @@
 <div class="container">
-  <ul class="responsive-table" >
+  <ul class="responsive-table">
     <li class="table-header">
       <div class="col col-1">Id</div>
       <div class="col col-4">Name</div>
       <div class="col col-4">Description</div>
       <div class="col col-4">IOAddress</div>
       <div class="col col-4">Value</div>
+      <div class="col col-1">Unit</div>
       <div class="col col-4">Low limit</div>
       <div class="col col-4">High Limit</div>
       <div class="col col-4">Is scan on</div>
@@ -14,21 +15,85 @@
       <div class="col col-1">Edit</div>
       <div class="col col-1">Delete</div>
     </li>
+    <li class="table-row">
+      <div class="col col-1"><button (click)="createAI()">Add new analog input+</button></div>
+      <div class="col col-1"><button (click)="createDI()">Add new digital input+</button></div>
+    </li>
     <li *ngFor="let tag of allTags" class="table-row">
       <div class="col col-1">{{tag.id}}</div>
       <div class="col col-4">{{tag.name}}</div>
       <div class="col col-4">{{tag.description}}</div>
-      <div class="col col-4">{{tag.iOAddress}}</div>
+      <div class="col col-4">{{tag.ioAddress}}</div>
       <div class="col col-4">{{tag.value}}</div>
+      <div class="col col-4">{{tag.unit}}</div>
       <div class="col col-4">{{tag.lowLimit}}</div>
       <div class="col col-4">{{tag.highLimit}}</div>
       <div class="col col-4">{{tag.isScanOn}}</div>
       <div class="col col-4">{{tag.scanTime}}</div>
       <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'">Alarms</div>
       <div class="col col-4" *ngIf="tag.tagType == 'DO' || tag.tagType == 'AO'"></div>
-      <div class="col col-1"><button>Edit</button></div>
-      <div class="col col-1"><button>Delete</button></div>
+      <div class="col col-1"><button (click)="edit(tag)">Edit</button></div>
+      <div class="col col-1"><button (click)="delete(tag.id)">Delete</button></div>
     </li>
   </ul>
+  <div class="form-popup" *ngIf="openEdit">
+    <div class="form-container">
+      <label for="name"><b>Name</b></label>
+      <input type="text" id="name" placeholder="{{editTag.name}}" name="name">
+      <label for="description"><b>Description</b></label>
+      <input type="text" id="description" placeholder="{{editTag.description}}" name="description">
+      <label for="ioAddress"><b>IO Address</b></label>
+      <input type="text" id="ioAddress" placeholder="{{editTag.ioAddress}}" name="ioAddress">
+      <label for="value"><b>Value</b></label>
+      <input type="text" id="value" placeholder="{{editTag.value}}" name="value">
+      <label for="unit"><b>Unit</b></label>
+      <input type="text" id="unit" placeholder="{{editTag.unit}}" name="unit">
+      <label for="lowLimit" *ngIf="editTag.lowLimit"><b>Low Limit</b></label>
+      <input type="text" *ngIf="editTag.lowLimit" id="lowLimit" placeholder="{{editTag.lowLimit}}" name="lowLimit">
+      <label for="highLimit" *ngIf="editTag.highLimit"><b>High Limit</b></label>
+      <input type="text" *ngIf="editTag.highLimit" id="highLimit" placeholder="{{editTag.highLimit}}" name="highLimit">
+      <label for="scanTime" *ngIf="editTag.scanTime"><b>Scan Time</b></label>
+      <input type="text" *ngIf="editTag.scanTime" id="scanTime" placeholder="{{editTag.scanTime}}" name="scanTime">             
+      <button type="submit" class="btn" (click)="sendEdit()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+  <div class="form-popup" *ngIf="openCreateAI">
+    <div class="form-container">
+      <label for="name"><b>Name</b></label>
+      <input type="text" id="nameC" name="nameC">
+      <label for="description"><b>Description</b></label>
+      <input type="text" id="descriptionC"  name="descriptionC">
+      <label for="ioAddress"><b>IO Address</b></label>
+      <input type="text" id="ioAddressC" name="ioAddressC">
+      <label for="value"><b>Value</b></label>
+      <input type="text" id="valueC"name="valueC">
+      <label for="unit"><b>Unit</b></label>
+      <input type="text" id="unitC" name="unitC">
+      <label for="lowLimit"><b>Low Limit</b></label>
+      <input type="text" id="lowLimitC" name="lowLimitC">
+      <label for="highLimit"><b>High Limit</b></label>
+      <input type="text"id="highLimitC" name="highLimitC">
+      <label for="scanTime"><b>Scan Time</b></label>
+      <input type="text" id="scanTimeC" name="scanTime">            
+      <button type="submit" class="btn" (click)="sendCreateAI()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+  <div class="form-popup" *ngIf="openCreateDI">
+    <div class="form-container">
+      <label for="name"><b>Name</b></label>
+      <input type="text" id="nameD" name="nameD">
+      <label for="description"><b>Description</b></label>
+      <input type="text" id="descriptionD"  name="descriptionD">
+      <label for="ioAddress"><b>IO Address</b></label>
+      <input type="text" id="ioAddressD" name="ioAddressD">
+      <label for="value"><b>Value</b></label>
+      <input type="text" id="valueD"name="valueD">
+      <label for="scanTime"><b>Scan Time</b></label>
+      <input type="text" id="scanTimeD" name="scanTimeD">             
+      <button type="submit" class="btn" (click)="sendCreateDI()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
 </div>
-
