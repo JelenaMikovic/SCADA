@@ -36,7 +36,7 @@
           </div>
       </div>
       <div class="col col-4">{{tag.scanTime}}</div>
-      <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'">Alarms</div>
+      <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'"><button (click)="getAllAlarms(tag.id)">Alarms</button></div>
       <div class="col col-4" *ngIf="tag.tagType == 'DO' || tag.tagType == 'AO'"></div>
       <div class="col col-1"><button (click)="edit(tag)">Edit</button></div>
       <div class="col col-1"><button (click)="delete(tag.id)">Delete</button></div>
@@ -102,4 +102,49 @@
       <button type="button" class="btn cancel" (click)="close()">Close</button>          
     </div>
   </div>
+
+  <div class="form-popup" *ngIf="openAlarms">
+    <div class="form-container">     
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-1">Value</div>
+          <div class="col col-4">Type</div>
+          <div class="col col-4">Priority</div>
+          <div class="col col-1">Delete</div>
+        </li>
+        <li *ngFor="let alarm of allAlarms" class="table-row">
+          <div class="col col-1">{{alarm.value}}</div>
+          <div class="col col-4">{{alarm.type}}</div>
+          <div class="col col-4">{{alarm.priority}}</div>
+          <div class="col col-1"><button (click)="deleteAlarm(alarm.id)">Delete</button></div>
+        </li>
+      </ul>     
+      <button type="submit" class="btn" (click)="addAlarm()">Add alarm</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+
+  <div class="form-popup" *ngIf="openAddAlarm">
+    <div class="form-container"> 
+      <label for="value"><b>Value</b></label>
+      <input type="number" id="valueA" name="valueA">
+      
+      <label for="description"><b>Type</b></label>
+      <select [(ngModel)]="selectedType" name="type">
+        <option value="LOWER">LOWER</option>
+        <option value="HIGHER">HIGHER</option>
+      </select>
+      
+      <label for="ioAddress"><b>Priority</b></label>
+      <select [(ngModel)]="selectedPriority" name="priority">
+        <option value="LOW">LOW</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="HIGH">HIGH</option>
+      </select>          
+        
+      <button type="submit" class="btn" (click)="sendAlarm()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+
 </div>

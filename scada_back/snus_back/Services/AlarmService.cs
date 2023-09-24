@@ -43,6 +43,7 @@ namespace scada_back.Services
             foreach(Alarm alarm in this.alarmRepository.GetByTagId(id))
             {
                 alarms.Add(new AlarmDTO { Id = alarm.Id, Priority = alarm.Priority.ToString(), TagId = alarm.TagId, Type = alarm.Type.ToString(), Value = alarm.Value });
+                Console.WriteLine(alarm.Value);
             }
             return alarms;
         }

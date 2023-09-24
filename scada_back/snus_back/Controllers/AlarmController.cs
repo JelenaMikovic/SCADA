@@ -48,7 +48,7 @@ namespace scada_back.Controllers
             try
             {
                 List<AlarmDTO> alarms = this.alarmService.GetTagsAlarms(tagId);
-                return Ok();
+                return Ok(alarms);
             }
             catch (Exception e)
             {
