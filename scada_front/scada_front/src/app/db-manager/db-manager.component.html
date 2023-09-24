@@ -28,7 +28,13 @@
       <div class="col col-4">{{tag.unit}}</div>
       <div class="col col-4">{{tag.lowLimit}}</div>
       <div class="col col-4">{{tag.highLimit}}</div>
-      <div class="col col-4">{{tag.isScanOn}}</div>
+      <div class="col col-4">
+          <div class="button r" id="button-1" (click)="toggle(tag.id)">
+            <input type="checkbox" class="checkbox" [checked]="tag.isScanOn" />
+            <div class="knobs"></div>
+            <div class="layer"></div>
+          </div>
+      </div>
       <div class="col col-4">{{tag.scanTime}}</div>
       <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'">Alarms</div>
       <div class="col col-4" *ngIf="tag.tagType == 'DO' || tag.tagType == 'AO'"></div>

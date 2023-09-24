@@ -8,8 +8,6 @@ import { MatTableDataSource } from '@angular/material/table';
   providedIn: 'root'
 })
 export class TagService {
-
-
   constructor(private http: HttpClient) { }
   private baseUrl = 'http://localhost:5184/api/Tag';
 
@@ -19,6 +17,10 @@ export class TagService {
 
   deleteTag(id: number) : Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/` + id);
+  }
+
+  toggleTag(id: number) : Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/` + id, id);
   }
 
   editTag(dto: TagDTO): Observable<any> {

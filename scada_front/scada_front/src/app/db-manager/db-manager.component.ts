@@ -38,6 +38,18 @@ export class DbManagerComponent implements OnInit {
     this.getAllTags();
   }
 
+  toggle(id: number) {
+    this.tagService.toggleTag(id).subscribe({
+      next: (result) => {
+
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+  
   edit(tag: TagDTO) {
     this.editTag = tag
     this.openEdit = true
