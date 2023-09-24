@@ -1,0 +1,32 @@
+﻿<Properties StartupConfiguration="{230077A9-D256-45AC-BA4D-072C03479D84}|snus_back">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.scada__back PreferredExecutionTarget="/System/Volumes/Preboot/Cryptexes/App/System/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="snus_back/Controllers/TagController.cs">
+    <Files>
+      <File FileName="snus_back/Controllers/TagController.cs" Line="13" Column="3" />
+      <File FileName="snus_back/Controllers/UserController.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="scada_back" expanded="True">
+            <Node name="scada_back" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="TagController.cs" selected="True" />
+              </Node>
+              <Node name="Database" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="IServices" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>
