@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Database;
 using scada_back.Models;
-using System.Data.Entity;
 using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
 namespace scada_back.Repositories
@@ -51,6 +50,10 @@ namespace scada_back.Repositories
             }
            
         }
-        
+
+        public Tag GetByIOAddress(string iOAddress)
+        {
+            return dbContext.Tags.FirstOrDefault(t => t.IOAddress == iOAddress);
+        }
     }
 }

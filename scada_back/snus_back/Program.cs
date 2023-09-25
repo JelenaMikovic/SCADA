@@ -20,11 +20,14 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<IAlarmService, AlarmService>();
+builder.Services.AddTransient<IDeviceService, DeviceService>();
+
 
 // Repositories
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<TagRepository>();
 builder.Services.AddTransient<AlarmRepository>();
+builder.Services.AddTransient<DeviceRepository>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();

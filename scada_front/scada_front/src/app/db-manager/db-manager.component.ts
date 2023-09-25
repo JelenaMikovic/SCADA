@@ -3,6 +3,8 @@ import { Router } from "@angular/router";
 import { TagService, TagDTO } from "../services/tag.service";
 import { MatDialog } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { AlarmDTO, AlarmService } from '../services/alarm.service';
+import { DeviceDTO, DeviceService } from '../services/device.service';
 
 @Component({
   selector: 'app-db-manager',
@@ -11,12 +13,21 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 })
 export class DbManagerComponent implements OnInit {
   allTags: TagDTO[] = [];
+  allDevices: DeviceDTO[] = [];
   editTag!: TagDTO;
   openEdit: boolean = false
   openCreateAI: boolean = false
   openCreateDI: boolean = false
+  allAlarms: AlarmDTO[] = []
+  openAlarms: boolean = false
+  openAddAlarm: boolean = false
+  selectedType!: number;
+  selectedPriority!: number;
+  selectedId!: number;
+  selectedAIAddress!: string;
+  selectedDIAddress!: string;
 
-  constructor(private dialog: MatDialog, private tagService: TagService, private snackBar: MatSnackBar, private router: Router) { }
+  constructor(private dialog: MatDialog, private tagService: TagService, private deviceService: DeviceService, private alarmService: AlarmService, private snackBar: MatSnackBar, private router: Router) { }
 
   getAllTags() {
     this.tagService.getTags().subscribe({
@@ -30,8 +41,35 @@ export class DbManagerComponent implements OnInit {
     });
   }
 
+  getAllDevices() {
+    this.deviceService.getDevices().subscribe({
+      next: (result) => {
+        this.allDevices = result as DeviceDTO[];
+      },
+      error: (error) => {
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
+  getAllAlarms(tagId: number) {
+    this.alarmService.getTagsAlarms(tagId).subscribe({
+      next: (result) => {
+        this.allAlarms = result as AlarmDTO[];
+        this.openAlarms = true;
+        this.selectedId = tagId
+        console.log(result)
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
   ngOnInit(): void {
     this.getAllTags();
+    this.getAllDevices();
   }
 
   toggle(id: number) {
@@ -108,6 +146,8 @@ export class DbManagerComponent implements OnInit {
     this.openEdit = false
     this.openCreateAI = false
     this.openCreateDI = false
+    this.openAlarms = false
+    this.openAddAlarm = false
   }
 
   createAI(){
@@ -117,7 +157,7 @@ export class DbManagerComponent implements OnInit {
   sendCreateAI() {
     const dto = {
       name : (document.getElementById('nameC') as HTMLInputElement).value.trim(),
-      ioAddress : (document.getElementById('ioAddressC') as HTMLInputElement).value.trim(),
+      ioAddress : this.selectedAIAddress.trim(),
       description : (document.getElementById('descriptionC') as HTMLInputElement).value.trim(),
       value : parseFloat((document.getElementById('valueC') as HTMLInputElement).value.trim()),
       lowLimit : parseFloat((document.getElementById('lowLimitC') as HTMLInputElement).value.trim()),
@@ -147,7 +187,7 @@ export class DbManagerComponent implements OnInit {
   sendCreateDI() {
     const dto = {
       name : (document.getElementById('nameD') as HTMLInputElement).value.trim(),
-      ioAddress : (document.getElementById('ioAddressD') as HTMLInputElement).value.trim(),
+      ioAddress : this.selectedDIAddress.trim(),
       description : (document.getElementById('descriptionD') as HTMLInputElement).value.trim(),
       value : parseFloat((document.getElementById('valueD') as HTMLInputElement).value.trim()),
       scanTime : parseFloat((document.getElementById('scanTimeD') as HTMLInputElement).value.trim()),
@@ -166,4 +206,42 @@ export class DbManagerComponent implements OnInit {
       },
     });
   }
+
+  deleteAlarm(id: number){
+    this.alarmService.deleteAlarm(id).subscribe({
+      next: (result) => {
+        alert("Alarm deleted")
+        this.openAlarms = false
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
+  addAlarm(){
+    this.openAddAlarm = true
+  }
+
+  sendAlarm(){
+    var dto = {
+      value: parseFloat((document.getElementById('valueA') as HTMLInputElement).value.trim()),
+      priority: this.selectedPriority,
+      type: this.selectedType,
+      tagId: this.selectedId
+    }
+    console.log(this.selectedId)
+    this.alarmService.addAlarm(dto).subscribe({
+      next: (result) => {
+        alert("Alarm added")
+        this.openAddAlarm = false
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
 }
