@@ -71,7 +71,9 @@
       <label for="description"><b>Description</b></label>
       <input type="text" id="descriptionC"  name="descriptionC">
       <label for="ioAddress"><b>IO Address</b></label>
-      <input type="text" id="ioAddressC" name="ioAddressC">
+      <select [(ngModel)]="selectedAIAddress" name="type">
+        <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
       <label for="value"><b>Value</b></label>
       <input type="text" id="valueC"name="valueC">
       <label for="unit"><b>Unit</b></label>
@@ -93,7 +95,9 @@
       <label for="description"><b>Description</b></label>
       <input type="text" id="descriptionD"  name="descriptionD">
       <label for="ioAddress"><b>IO Address</b></label>
-      <input type="text" id="ioAddressD" name="ioAddressD">
+      <select [(ngModel)]="selectedDIAddress" name="type">
+        <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
       <label for="value"><b>Value</b></label>
       <input type="text" id="valueD"name="valueD">
       <label for="scanTime"><b>Scan Time</b></label>

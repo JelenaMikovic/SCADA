@@ -57,16 +57,6 @@ namespace scada_back.Services
             this.tagRepository.UpdateTag(tag);
         }
 
-        public ICollection<ITDbManagerDTO> GetAllInputTagsDBManager()
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICollection<OTDbManagerDTO> GetAllOutputTagsDBManager()
-        {
-            throw new NotImplementedException();
-        }
-
         public List<TagDTO> getAllTags()
         {
             List<TagDTO> tags = new List<TagDTO>();

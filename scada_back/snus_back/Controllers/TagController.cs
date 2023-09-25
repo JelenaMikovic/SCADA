@@ -30,53 +30,6 @@ namespace scada_back.Controllers
 
 		}
 
-
-        [HttpGet]
-        [Route("{IOaddress}")]
-        public ActionResult GetAllTagsByIOAddress(string address)
-        {
-            try
-            {
-                ICollection<TagDTO> response = this.tagService.getAllTagsByIOAddress(address);
-                return Ok(response);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Message = e.Message });
-            }
-        }
-
-        [HttpGet]
-        [Route("input-dbm")]
-        public ActionResult GetAllInputTagsDBManager()
-        {
-            try
-            {
-                ICollection<ITDbManagerDTO> ret = this.tagService.GetAllInputTagsDBManager();
-                return Ok(ret);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Message = e.Message });
-            }
-        }
-
-
-        [HttpGet]
-        [Route("output-dbm")]
-        public ActionResult GetAllOutputTagsDBManager()
-        {
-            try
-            {
-                ICollection<OTDbManagerDTO> ret = this.tagService.GetAllOutputTagsDBManager();
-                return Ok(ret);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(new { Message = e.Message });
-            }
-        }
-
         [HttpPost]
         public ActionResult CreateTag(CreateTagDTO createTagDTO)
         {
