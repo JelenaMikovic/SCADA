@@ -1,0 +1,30 @@
+<div class="container">
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">Id</div>
+      <div class="col col-4">Name</div>
+      <div class="col col-4">Description</div>
+      <div class="col col-4">IOAddress</div>
+      <div class="col col-4">Value</div>
+      <div class="col col-4">Unit</div>
+      <div class="col col-4">Low limit</div>
+      <div class="col col-4">High Limit</div>
+      <div class="col col-4">Scan time</div>
+      <div class="col col-4">Alarms</div>
+    </li>
+    <li *ngFor="let tag of allTags" class="table-row">
+      <div class="col col-1">{{tag.id}}</div>
+      <div class="col col-4">{{tag.name}}</div>
+      <div class="col col-4">{{tag.description}}</div>
+      <div class="col col-4">{{tag.ioAddress}}</div>
+      <div class="col col-4">{{tag.value}}</div>
+      <div class="col col-4">{{tag.unit}}</div>
+      <div class="col col-4">{{tag.lowLimit}}</div>
+      <div class="col col-4">{{tag.highLimit}}</div>
+      <div class="col col-4">{{tag.scanTime}}</div>
+      <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'">Alarms</div>
+    </li>
+  </ul>
+
+
+</div>

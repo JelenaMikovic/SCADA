@@ -11,7 +11,7 @@ export class TagService {
   constructor(private http: HttpClient) { }
   private baseUrl = 'http://localhost:5184/api/Tag';
 
-  getTags(): Observable<any> {
+  getTags(): Observable<TagDTO[]> {
     return this.http.get<any>(`${this.baseUrl}`);
   }
 
@@ -30,7 +30,7 @@ export class TagService {
   createTag(dto: { name: string; ioAddress: string; description: string; value: number; lowLimit?: number; highLimit?: number; scanTime: number; isScanOn: boolean; type: string; unit?: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, dto);
   }
-  
+
 }
 
 
