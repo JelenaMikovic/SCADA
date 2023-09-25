@@ -9,9 +9,11 @@ namespace scada_back.Services
     public class TagService: ITagService
     {
         public TagRepository tagRepository;
+        public ScanService scanService;
         
-        public TagService(TagRepository tagRepository) {
+        public TagService(TagRepository tagRepository, ScanService scanService) {
             this.tagRepository = tagRepository;
+            this.scanService = scanService;
         }
 
         public void CreateTag(CreateTagDTO createTagDTO)
@@ -30,6 +32,7 @@ namespace scada_back.Services
                 TagType = (TagType)Enum.Parse(typeof(TagType), createTagDTO.Type)
             };
             this.tagRepository.AddTag(tag);
+            this.scanService.AddNewTag(tag);
         }
 
         public void DeleteTag(int tagId)

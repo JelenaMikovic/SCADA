@@ -10,12 +10,12 @@ namespace scada_back.Services
 {
     public class ScanService
     {
-        TagRepository tagRepository;
-        AlarmRepository alarmRepository;
-        DeviceRepository deviceRepository;
-        IHubContext<AlarmHub> alarmHub;
-        IHubContext<TagHub> tagHub;
-        TagHandler tagHandler;
+        private TagRepository tagRepository;
+        private AlarmRepository alarmRepository;
+        private DeviceRepository deviceRepository;
+        private readonly IHubContext<AlarmHub> alarmHub;
+        private readonly IHubContext<TagHub> tagHub;
+        private TagHandler tagHandler;
         private readonly object _lock = new();
 
         public ScanService(TagRepository tagRepository, AlarmRepository alarmRepository, DeviceRepository deviceRepository, IHubContext<TagHub> tagHub, IHubContext<AlarmHub> alarmHub, TagHandler tagHandler)
