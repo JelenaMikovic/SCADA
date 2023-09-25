@@ -10,10 +10,6 @@ import { MatSnackBar } from "@angular/material/snack-bar";
   styleUrls: ['./db-manager.component.css']
 })
 export class DbManagerComponent implements OnInit {
-  isInputTagsClicked: boolean = false;
-  isOutputTagsClicked: boolean = false;
-  displayedColumnsOutput = ['name', 'type', 'description', 'value', 'actions'];
-  displayedColumnsInput = ['name', 'type', 'description', 'scanTime', 'scan', 'actions'];
   allTags: TagDTO[] = [];
   editTag!: TagDTO;
   openEdit: boolean = false
@@ -49,7 +45,7 @@ export class DbManagerComponent implements OnInit {
       },
     });
   }
-  
+
   edit(tag: TagDTO) {
     this.editTag = tag
     this.openEdit = true

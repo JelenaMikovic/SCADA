@@ -12,13 +12,15 @@ import {MatIconModule} from "@angular/material/icon";
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { TrendingComponent } from './trending/trending.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     NavbarComponent,
-    DbManagerComponent
+    DbManagerComponent,
+    TrendingComponent
   ],
   imports: [
     BrowserModule,
