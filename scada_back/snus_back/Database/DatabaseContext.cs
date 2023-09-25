@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Models;
+using snus_back.Models;
 
 namespace scada_back.Database
 {
@@ -18,6 +19,8 @@ namespace scada_back.Database
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Alarm> Alarms { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<AlarmRecord> AlarmRecords { get; set; }
+        public DbSet<TagRecord> TagRecords { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

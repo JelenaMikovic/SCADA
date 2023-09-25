@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Database;
 using scada_back.Models;
+using snus_back.Models;
+using System.Security.Claims;
 
 namespace scada_back.Repositories
 {
@@ -47,6 +49,12 @@ namespace scada_back.Repositories
             {
                 throw new Exception();
             }
+        }
+
+        public void AddRecord(AlarmRecord alarmRecord)
+        {
+            this.dbContext.AlarmRecords.Add(alarmRecord);
+            this.dbContext.SaveChanges();
         }
     }
 }

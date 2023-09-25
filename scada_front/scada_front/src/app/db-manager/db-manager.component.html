@@ -36,8 +36,8 @@
           </div>
       </div>
       <div class="col col-4">{{tag.scanTime}}</div>
-      <div class="col col-4" *ngIf="tag.tagType == 'DI' || tag.tagType == 'AI'"><button (click)="getAllAlarms(tag.id)">Alarms</button></div>
-      <div class="col col-4" *ngIf="tag.tagType == 'DO' || tag.tagType == 'AO'"></div>
+      <div class="col col-4" *ngIf="tag.tagType == 'AI'"><button (click)="getAllAlarms(tag.id)">Alarms</button></div>
+      <div class="col col-4" *ngIf="tag.tagType != 'AI'"></div>
       <div class="col col-1"><button (click)="edit(tag)">Edit</button></div>
       <div class="col col-1"><button (click)="delete(tag.id)">Delete</button></div>
     </li>
@@ -72,6 +72,9 @@
       <input type="text" id="descriptionC"  name="descriptionC">
       <label for="ioAddress"><b>IO Address</b></label>
       <select [(ngModel)]="selectedAIAddress" name="type">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
         <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
       </select>
       <label for="value"><b>Value</b></label>
@@ -96,6 +99,9 @@
       <input type="text" id="descriptionD"  name="descriptionD">
       <label for="ioAddress"><b>IO Address</b></label>
       <select [(ngModel)]="selectedDIAddress" name="type">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
         <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
       </select>
       <label for="value"><b>Value</b></label>
