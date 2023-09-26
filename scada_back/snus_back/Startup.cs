@@ -58,5 +58,3 @@ namespace snus_back
         }
     }
 }
-
-}

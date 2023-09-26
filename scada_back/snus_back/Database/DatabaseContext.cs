@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Models;
-using snus_back.Models;
 
 namespace scada_back.Database
 {

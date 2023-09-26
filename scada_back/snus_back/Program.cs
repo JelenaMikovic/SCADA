@@ -33,6 +33,12 @@ builder.Services.AddTransient<TagRepository>();
 builder.Services.AddTransient<AlarmRepository>();
 builder.Services.AddTransient<DeviceRepository>();
 
+
+//Sockets
+builder.Services.AddSingleton<TagHandler>();
+builder.Services.AddSingleton<AlarmHandler>();
+builder.Services.AddSingleton<WebSocketConnectionManager>();
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 

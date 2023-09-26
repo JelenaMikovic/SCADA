@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Database;
 using scada_back.Models;
-using snus_back.Models;
 using System.Security.Claims;
 
 namespace scada_back.Repositories
