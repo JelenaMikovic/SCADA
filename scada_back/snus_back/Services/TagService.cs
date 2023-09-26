@@ -45,23 +45,17 @@ namespace scada_back.Services
 
         public void UpdateTag(UpdateTagDTO createTagDTO)
         {
-            Tag tag = new Tag
-            {
-                Id = createTagDTO.Id,
-                Name = createTagDTO.Name,
-                Description = createTagDTO.Description,
-                IOAddress = createTagDTO.IOAddress,
-                Value = createTagDTO.Value,
-                ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null,
-                IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null,
-                LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null,
-                HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null,
-                Unit = createTagDTO.Unit
-            };
-            lock (Utils._lock)
-            {
-                this.tagRepository.UpdateTag(tag);
-            }
+            Tag tag = tagRepository.GetTagById(createTagDTO.Id);
+            tag.Name = createTagDTO.Name;
+            tag.Description = createTagDTO.Description;
+            tag.IOAddress = createTagDTO.IOAddress;
+            tag.Value = createTagDTO.Value;
+            tag.ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null;
+            tag.IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null;
+            tag.LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null;
+            tag.HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null;
+            tag.Unit = createTagDTO.Unit;
+            this.tagRepository.UpdateTag(tag);
         }
 
         public List<TagDTO> getAllTags()
@@ -94,17 +88,15 @@ namespace scada_back.Services
 
         public void ToggleIsScanOn(int tagId)
         {
-            lock(Utils._lock){
-                Tag tag = tagRepository.GetTagById(tagId);
-                if (tag != null)
-                {
-                    tag.IsScanOn = !tag.IsScanOn;
-                    tagRepository.UpdateTag(tag);
-                }
-                else
-                {
-                    throw new Exception();
-                }
+            Tag tag = tagRepository.GetTagById(tagId);
+            if (tag != null)
+            {
+                tag.IsScanOn = !tag.IsScanOn;
+                tagRepository.UpdateTag(tag);
+            }
+            else
+            {
+                throw new Exception();
             }
         }
     }

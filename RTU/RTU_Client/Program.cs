@@ -54,7 +54,7 @@ public class Program
                 } else { device.Value = rand.NextDouble() * (device.HighLimit - device.LowLimit) + device.LowLimit; }
                 deviceDTOs.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
             }
-            //sendRequest(deviceDTOs);
+            sendRequest(deviceDTOs);
             Thread.Sleep(1000);
         }
     }

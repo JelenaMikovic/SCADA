@@ -8,6 +8,7 @@ namespace scada_back.Repositories
     public class DeviceRepository
     {
         private DatabaseContext dbContext;
+        public static Dictionary<string, double> devices = new Dictionary<string, double>();
 
         public DeviceRepository(DatabaseContext dbContext)
         {
@@ -17,6 +18,7 @@ namespace scada_back.Repositories
         public void AddDevice(Device device)
         {
             this.dbContext.Add(device);
+            devices.Add(device.IOAddress, device.Value);
             dbContext.SaveChanges();
         }
 
@@ -29,6 +31,7 @@ namespace scada_back.Repositories
         {
             Device device = GetByIOAddress(deviceDTO.IOAddress);
             device.Value = deviceDTO.Value;
+            devices[device.IOAddress] = deviceDTO.Value;
             dbContext.Entry(device).State = EntityState.Modified;
             dbContext.SaveChanges();
         }

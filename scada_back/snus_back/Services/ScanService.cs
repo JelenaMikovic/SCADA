@@ -51,18 +51,13 @@ namespace scada_back.Services
             Tag tag = (Tag)obj;
             double currentValue = -1000;
             Alarm currentAlarm;
-            List<Alarm> alarms;
+            List<Alarm> alarms = new();
 
             while (true)
             {
-                lock (Utils._lock)
+                if (tag == null)
                 {
-                    tag = tagRepository.GetTagById(tag.Id);
-                    if (tag == null)
-                    {
-                        break;
-                    }
-                    alarms = alarmRepository.GetByTagId(tag.Id);
+                    break;
                 }
 
                 if ((bool)tag.IsScanOn)
@@ -75,7 +70,7 @@ namespace scada_back.Services
                     {
                         lock (Utils._lock)
                         {
-                            currentValue = deviceRepository.GetByIOAddress(tag.IOAddress).Value;
+                            currentValue = DeviceRepository.devices[tag.IOAddress];
                         }
                     }
                     currentAlarm = null;
@@ -94,7 +89,7 @@ namespace scada_back.Services
                     lock (Utils._lock)
                     {
                         tag.Value = currentValue;
-                        tagRepository.UpdateTag(tag);
+                        //tagRepository.UpdateTag(tag);
                     }
 
                     if (currentAlarm != null)
@@ -107,7 +102,7 @@ namespace scada_back.Services
                         lock (Utils._lock)
                         {
                             alarmHub.Clients.All.SendAsync("alarm", new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value });
-                            alarmRepository.AddRecord(alarmRecord);
+                            //alarmRepository.AddRecord(alarmRecord);
                         }
                     }
 
@@ -115,7 +110,7 @@ namespace scada_back.Services
 
                     lock (Utils._lock)
                     {
-                        tagRepository.AddRecord(tagRecord);
+                        //tagRepository.AddRecord(tagRecord);
                         tagHub.Clients.All.SendAsync("tag", tagRecord);
                         tagHandler.SendDataToClient("tag", tagRecord);
                     }

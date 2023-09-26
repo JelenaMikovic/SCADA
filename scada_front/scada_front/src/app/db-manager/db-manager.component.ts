@@ -143,6 +143,7 @@ export class DbManagerComponent implements OnInit {
       dto.unit = (document.getElementById('unit') as HTMLInputElement).value.trim()
     }
 
+
     this.tagService.editTag(dto).subscribe({
       next: (result) => {
         alert("Tag edited")

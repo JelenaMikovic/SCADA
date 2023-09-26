@@ -6,6 +6,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 import {HttpTransportType, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
+
 @Component({
   selector: 'app-trending',
   templateUrl: './trending.component.html',
@@ -39,6 +40,7 @@ export class TrendingComponent implements OnInit{
   }
 
   updateTag(update:any){
+    console.log(update)
     for (let tag of this.allTags){
       if (tag.id == update.tagId){
         tag.value = update.value;
@@ -58,7 +60,7 @@ export class TrendingComponent implements OnInit{
       .start()
       .then(() => console.log('Connection started'))
       .catch(() => console.log('Error while starting connection: '))
-    this.tagUpdateConnection.on('input', (from: string, body: string) => {
+    this.tagUpdateConnection.on('tag', (from: string, body: string) => {
       console.log(from, body);
       this.updateTag(from);
     });
