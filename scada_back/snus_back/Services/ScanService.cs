@@ -20,6 +20,11 @@ namespace scada_back.Services
         private readonly IHubContext<TagHub> tagHub;
         private readonly TagHandler tagHandler;
 
+        private List<Alarm> alarms;
+        private List<Tag> tags;
+        private List<AlarmRecord> alarmRecords;
+        private List<TagRecord> tagRecords;
+
         public ScanService(TagRepository tagRepository, AlarmRepository alarmRepository, DeviceRepository deviceRepository, IHubContext<TagHub> tagHub, IHubContext<AlarmHub> alarmHub, TagHandler tagHandler)
         {
             this.tagRepository = tagRepository;
@@ -28,10 +33,23 @@ namespace scada_back.Services
             this.tagHub = tagHub;
             this.alarmHub = alarmHub;
             this.tagHandler = tagHandler;
+            this.alarms = new List<Alarm>();
+            this.alarmRecords = new List<AlarmRecord>();
+            this.tags = new List<Tag>();
+            this.tagRecords = new List<TagRecord>();
         }
 
         public void Run()
         {
+            foreach (Alarm alarm in alarmRepository.GetAll())
+            {
+                this.alarms.Add(alarm);
+            }
+            foreach (Tag tag in tagRepository.GetAllTags())
+            {
+                if (tag.TagType.Equals(TagType.AO) || tag.TagType.Equals(TagType.DO)) continue;
+                this.tags.Add(tag);
+            }
             foreach (Tag tag in tagRepository.GetAllTags())
             {
                 if (tag.TagType.Equals(TagType.AO) || tag.TagType.Equals(TagType.DO)) continue;
@@ -40,10 +58,42 @@ namespace scada_back.Services
             }
         }
 
+        public void UpdateDatabase()
+        {
+            while (true)
+            {
+                lock (Utils._lock)
+                {
+                    tagRepository.UpdateAllTags(this.tags);
+                    tagRepository.InsertAllTagRecords(this.tagRecords);
+                    tagRecords.Clear();
+                    alarmRepository.InsertAllAlarmRecords(this.alarmRecords);
+                    alarmRecords.Clear();
+                }
+                Thread.Sleep(3000);
+            }
+
+        }
         public void AddNewTag(Tag tag)
         {
+            this.tags.Add(tag);
             Thread thread = new Thread(() => StartSimulationThread(tag));
             thread.Start();
+        }
+
+        public void ToggleScan(int id)
+        {
+            this.tags.Find(t => t.Id == id).IsScanOn = !this.tags.Find(t => t.Id == id).IsScanOn;
+        }
+
+        public void DeleteTag(int id)
+        {
+            this.tags.Remove(this.tags.Find(t => t.Id == id));
+        }
+
+        public void EditTag(Tag tag)
+        {
+            //tags.Find(t => t.Id == tag.Id) = tag;
         }
 
         private void StartSimulationThread(object obj)
@@ -55,6 +105,9 @@ namespace scada_back.Services
 
             while (true)
             {
+                tag = this.tags.Find(t => t.Id == tag.Id);
+                alarms = this.alarms.FindAll(t => t.TagId == tag.Id);
+                
                 if (tag == null)
                 {
                     break;
@@ -89,7 +142,7 @@ namespace scada_back.Services
                     lock (Utils._lock)
                     {
                         tag.Value = currentValue;
-                        //tagRepository.UpdateTag(tag);
+                        tags.Find(t => t.Id == tag.Id).Value = currentValue;
                     }
 
                     if (currentAlarm != null)
@@ -102,7 +155,7 @@ namespace scada_back.Services
                         lock (Utils._lock)
                         {
                             alarmHub.Clients.All.SendAsync("alarm", new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value });
-                            //alarmRepository.AddRecord(alarmRecord);
+                            alarmRecords.Add(alarmRecord);
                         }
                     }
 
@@ -110,7 +163,7 @@ namespace scada_back.Services
 
                     lock (Utils._lock)
                     {
-                        //tagRepository.AddRecord(tagRecord);
+                        tagRecords.Add(tagRecord);
                         tagHub.Clients.All.SendAsync("tag", tagRecord);
                         tagHandler.SendDataToClient("tag", tagRecord);
                     }

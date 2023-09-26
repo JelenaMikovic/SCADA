@@ -60,5 +60,19 @@ namespace scada_back.Repositories
             this.dbContext.AlarmRecords.Add(alarmRecord);
             this.dbContext.SaveChanges();
         }
+
+        public List<Alarm> GetAll()
+        {
+            return dbContext.Alarms.ToList();
+        }
+
+        public void InsertAllAlarmRecords(List<AlarmRecord> alarmRecords)
+        {
+            foreach(AlarmRecord record in alarmRecords)
+            {
+                this.dbContext.AlarmRecords.Add(record);
+                this.dbContext.SaveChanges();
+            }
+        }
     }
 }

@@ -38,7 +38,10 @@ namespace scada_back.Services
 
         public void DeleteTag(int tagId)
         {
-            try { this.tagRepository.DeleteTag(tagId); }
+            try { 
+                this.tagRepository.DeleteTag(tagId);
+                scanService.DeleteTag(tagId);
+            }
             catch { throw new Exception(); }
             
         }
@@ -93,6 +96,7 @@ namespace scada_back.Services
             {
                 tag.IsScanOn = !tag.IsScanOn;
                 tagRepository.UpdateTag(tag);
+                scanService.ToggleScan(tagId);
             }
             else
             {
