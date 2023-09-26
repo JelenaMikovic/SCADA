@@ -39,13 +39,18 @@ namespace scada_back.Services
         }
 
         public List<AlarmDTO> GetTagsAlarms(int id) {
-            List<AlarmDTO> alarms = new List<AlarmDTO>();
-            foreach(Alarm alarm in this.alarmRepository.GetByTagId(id))
+            List<AlarmDTO> alarmsDTO = new List<AlarmDTO>();
+            List<Alarm> alarms;
+            lock (Utils._lock)
             {
-                alarms.Add(new AlarmDTO { Id = alarm.Id, Priority = alarm.Priority.ToString(), TagId = alarm.TagId, Type = alarm.Type.ToString(), Value = alarm.Value });
+                alarms = this.alarmRepository.GetByTagId(id);
+            }
+            foreach (Alarm alarm in alarms)
+            {
+                alarmsDTO.Add(new AlarmDTO { Id = alarm.Id, Priority = alarm.Priority.ToString(), TagId = alarm.TagId, Type = alarm.Type.ToString(), Value = alarm.Value });
                 Console.WriteLine(alarm.Value);
             }
-            return alarms;
+            return alarmsDTO;
         }
     }
 }

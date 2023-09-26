@@ -75,7 +75,6 @@ namespace scada_back.Services
                     {
                         lock (Utils._lock)
                         {
-                            // Lock the access to deviceRepository when reading the value
                             currentValue = deviceRepository.GetByIOAddress(tag.IOAddress).Value;
                         }
                     }
@@ -116,7 +115,7 @@ namespace scada_back.Services
 
                     lock (Utils._lock)
                     {
-                        //tagRepository.AddRecord(tagRecord);
+                        tagRepository.AddRecord(tagRecord);
                         tagHub.Clients.All.SendAsync("tag", tagRecord);
                         tagHandler.SendDataToClient("tag", tagRecord);
                     }

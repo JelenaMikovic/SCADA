@@ -85,10 +85,10 @@ export class DbManagerComponent implements OnInit {
     this.getAllDevices();
   }
 
-  toggle(id: number) {
-    this.tagService.toggleTag(id).subscribe({
+  toggle(tag: TagDTO) {
+    this.tagService.toggleTag(tag.id).subscribe({
       next: (result) => {
-
+        tag.isScanOn = !tag.isScanOn;
       },
       error: (error) => {
         // Handle errors here, you can display an error message if needed

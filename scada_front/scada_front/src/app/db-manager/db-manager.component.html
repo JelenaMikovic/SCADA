@@ -31,8 +31,8 @@
       <div class="col col-4">{{tag.lowLimit}}</div>
       <div class="col col-4">{{tag.highLimit}}</div>
       <div class="col col-4">
-          <div class="button r" id="button-1" (click)="toggle(tag.id)">
-            <input type="checkbox" class="checkbox" [checked]="tag.isScanOn" />
+          <div class="button r" id="button-1" (click)="toggle(tag)">
+            <input type="checkbox" class="checkbox" [checked]="!tag.isScanOn" />
             <div class="knobs"></div>
             <div class="layer"></div>
           </div>
@@ -114,9 +114,9 @@
   <div class="form-popup" *ngIf="openCreateAO">
     <div class="form-container">
       <label for="name"><b>Name</b></label>
-      <input type="text" id="nameC" name="nameC">
+      <input type="text" id="nameCO" name="nameC">
       <label for="description"><b>Description</b></label>
-      <input type="text" id="descriptionC"  name="descriptionC">
+      <input type="text" id="descriptionCO"  name="descriptionC">
       <label for="ioAddress"><b>IO Address</b></label>
       <select [(ngModel)]="selectedAOAddress" name="type">
         <option value="SIN">Simulation - SINUS</option>

@@ -21,11 +21,7 @@ builder.Services.AddCors();
 
 */
 
-builder.Services.AddSingleton<DatabaseContext>(options =>
-{
-    options.UseLazyLoadingProxies().
-    UseSqlite("Data Source = scada.db");
-}, ServiceLifetime.Transient);
+builder.Services.AddSingleton<DatabaseContext>();
 
 // Services
 builder.Services.AddTransient<IUserService, UserService>();

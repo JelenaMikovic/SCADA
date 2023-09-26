@@ -17,12 +17,15 @@ namespace scada_back.Services
         public List<DeviceDTO> GetAvailableInputDevices()
         {
             List<DeviceDTO> devices = new List<DeviceDTO>();
-            foreach(Device device in deviceRepository.GetAllDevices())
+            lock (Utils._lock)
             {
-                if (tagRepository.GetByIOAddress(device.IOAddress) == null || 
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AO) ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DO)) 
-                    devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
+                foreach (Device device in deviceRepository.GetAllDevices())
+                {
+                    if (tagRepository.GetByIOAddress(device.IOAddress) == null ||
+                        tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AO) ||
+                        tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DO))
+                        devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
+                }
             }
             return devices;
         }
@@ -30,12 +33,14 @@ namespace scada_back.Services
         public List<DeviceDTO> GetAvailableOutputDevices()
         {
             List<DeviceDTO> devices = new List<DeviceDTO>();
-            foreach (Device device in deviceRepository.GetAllDevices())
-            {
-                if (tagRepository.GetByIOAddress(device.IOAddress) == null ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AI) ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DI)) 
-                    devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
+            lock(Utils._lock){
+                foreach (Device device in deviceRepository.GetAllDevices())
+                {
+                    if (tagRepository.GetByIOAddress(device.IOAddress) == null ||
+                        tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AI) ||
+                        tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DI))
+                        devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
+                }
             }
             return devices;
         }

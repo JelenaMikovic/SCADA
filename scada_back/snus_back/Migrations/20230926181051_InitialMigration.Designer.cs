@@ -11,18 +11,14 @@ using scada_back.Database;
 namespace scada_back.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230926162038_InitialMigration")]
+    [Migration("20230926181051_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
-                .HasAnnotation("Proxies:ChangeTracking", false)
-                .HasAnnotation("Proxies:CheckEquality", false)
-                .HasAnnotation("Proxies:LazyLoading", true);
+            modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
 
             modelBuilder.Entity("scada_back.Models.Alarm", b =>
                 {

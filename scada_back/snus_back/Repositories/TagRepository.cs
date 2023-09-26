@@ -14,6 +14,10 @@ namespace scada_back.Repositories
             this.dbContext = dbContext;
         }
 
+        public TagRepository()
+        {
+        }
+
 
         // DIGITAL OUTPUT - TAG   
         public List<Tag> GetAllTags()
@@ -23,7 +27,11 @@ namespace scada_back.Repositories
 
         public Tag GetTagById(int id)
         {
-            return dbContext.Tags.FirstOrDefault(t => t.Id == id);
+            lock (Utils._lock)
+            {
+                return dbContext.Tags.FirstOrDefault(t => t.Id == id);
+
+            }
         }
 
         public void AddTag(Tag tag)

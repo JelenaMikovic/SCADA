@@ -1,4 +1,6 @@
-﻿namespace scada_back
+﻿using scada_back.Repositories;
+
+namespace scada_back
 {
     public class Utils
     {
