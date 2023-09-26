@@ -19,6 +19,11 @@ namespace scada_back.Repositories
             return dbContext.Alarms.FirstOrDefault(t => t.Id == alarmId);
         }
 
+        public List<AlarmRecord> GetAlarmRecords()
+        {
+            return dbContext.AlarmRecords.ToList();
+        }
+
         public List<Alarm> GetByTagId(int tagId)
         {
             return dbContext.Alarms.Where(t => t.TagId == tagId).ToList();

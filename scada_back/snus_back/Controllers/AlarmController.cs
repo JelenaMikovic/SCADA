@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using scada_back.DTOs;
+using scada_back.Models;
 using scada_back.Services.IServices;
 
 namespace scada_back.Controllers
@@ -12,6 +13,21 @@ namespace scada_back.Controllers
         public AlarmController(IAlarmService alarmService)
         {
             this.alarmService = alarmService;
+        }
+
+
+        [HttpGet]
+        public ActionResult GetAllarms()
+        {
+            try
+            {
+                List<AlarmRecord> records = this.alarmService.GetAlarmRecords();
+                return Ok(records);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
         }
 
         [HttpPost]

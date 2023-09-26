@@ -23,7 +23,11 @@ export class AlarmService {
     return this.http.post<any>(`${this.baseUrl}/`, dto);
   }
 
- 
+  getAlarmRecords():Observable<AlarmRecordDTO[]>{
+    return this.http.get<any>(`${this.baseUrl}/`);
+  }
+
+
 }
 
 export interface AlarmDTO {
@@ -32,4 +36,11 @@ export interface AlarmDTO {
   type: string;
   priority: string;
   value: number;
+}
+
+export interface AlarmRecordDTO{
+  id:number
+  alarmId:number;
+  tagId:number;
+  timestamp:Date;
 }

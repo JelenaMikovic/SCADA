@@ -9,10 +9,17 @@ namespace scada_back.Services
     public class AlarmService : IAlarmService
     {
         public AlarmRepository alarmRepository;
+       
 
         public AlarmService(AlarmRepository alarmRepository)
         {
             this.alarmRepository = alarmRepository;
+        }
+
+
+        public List<AlarmRecord> GetAlarmRecords()
+        {
+            return this.alarmRepository.GetAlarmRecords();
         }
 
         public void AddAlarm(AddAlarmDTO alarmDTO)
