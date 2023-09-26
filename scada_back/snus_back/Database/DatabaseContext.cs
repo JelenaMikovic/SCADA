@@ -5,21 +5,26 @@ namespace scada_back.Database
 {
     public class DatabaseContext: DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options)
-        : base(options)
-        {
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseInMemoryDatabase("scada");
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Alarm> Alarms { get; set; }
         public DbSet<Device> Devices { get; set; }
+        public DbSet<AlarmRecord> AlarmRecords { get; set; }
+        public DbSet<TagRecord> TagRecords { get; set; }
 
+        //public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
+        protected readonly IConfiguration Configuration;
+
+        public DatabaseContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        {
+            options.UseSqlite("Data Source = scada.db");
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

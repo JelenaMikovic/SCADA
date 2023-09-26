@@ -14,10 +14,13 @@ import { DeviceDTO, DeviceService } from '../services/device.service';
 export class DbManagerComponent implements OnInit {
   allTags: TagDTO[] = [];
   allDevices: DeviceDTO[] = [];
+  allOutputDevices: DeviceDTO[] = [];
   editTag!: TagDTO;
   openEdit: boolean = false
   openCreateAI: boolean = false
   openCreateDI: boolean = false
+  openCreateAO: boolean = false
+  openCreateDO: boolean = false
   allAlarms: AlarmDTO[] = []
   openAlarms: boolean = false
   openAddAlarm: boolean = false
@@ -26,6 +29,8 @@ export class DbManagerComponent implements OnInit {
   selectedId!: number;
   selectedAIAddress!: string;
   selectedDIAddress!: string;
+  selectedAOAddress!: string;
+  selectedDOAddress!: string;
 
   constructor(private dialog: MatDialog, private tagService: TagService, private deviceService: DeviceService, private alarmService: AlarmService, private snackBar: MatSnackBar, private router: Router) { }
 
@@ -45,6 +50,14 @@ export class DbManagerComponent implements OnInit {
     this.deviceService.getDevices().subscribe({
       next: (result) => {
         this.allDevices = result as DeviceDTO[];
+      },
+      error: (error) => {
+        console.error('Error fetching tags:', error);
+      },
+    });
+    this.deviceService.getOutputDevices().subscribe({
+      next: (result) => {
+        this.allOutputDevices = result as DeviceDTO[];
       },
       error: (error) => {
         console.error('Error fetching tags:', error);
@@ -72,10 +85,10 @@ export class DbManagerComponent implements OnInit {
     this.getAllDevices();
   }
 
-  toggle(id: number) {
-    this.tagService.toggleTag(id).subscribe({
+  toggle(tag: TagDTO) {
+    this.tagService.toggleTag(tag.id).subscribe({
       next: (result) => {
-
+        tag.isScanOn = !tag.isScanOn;
       },
       error: (error) => {
         // Handle errors here, you can display an error message if needed
@@ -146,6 +159,8 @@ export class DbManagerComponent implements OnInit {
     this.openEdit = false
     this.openCreateAI = false
     this.openCreateDI = false
+    this.openCreateAO = false
+    this.openCreateDO = false
     this.openAlarms = false
     this.openAddAlarm = false
   }
@@ -159,7 +174,7 @@ export class DbManagerComponent implements OnInit {
       name : (document.getElementById('nameC') as HTMLInputElement).value.trim(),
       ioAddress : this.selectedAIAddress.trim(),
       description : (document.getElementById('descriptionC') as HTMLInputElement).value.trim(),
-      value : parseFloat((document.getElementById('valueC') as HTMLInputElement).value.trim()),
+      value : 0,
       lowLimit : parseFloat((document.getElementById('lowLimitC') as HTMLInputElement).value.trim()),
       highLimit : parseFloat((document.getElementById('highLimitC') as HTMLInputElement).value.trim()),
       scanTime : parseFloat((document.getElementById('scanTimeC') as HTMLInputElement).value.trim()),
@@ -189,7 +204,7 @@ export class DbManagerComponent implements OnInit {
       name : (document.getElementById('nameD') as HTMLInputElement).value.trim(),
       ioAddress : this.selectedDIAddress.trim(),
       description : (document.getElementById('descriptionD') as HTMLInputElement).value.trim(),
-      value : parseFloat((document.getElementById('valueD') as HTMLInputElement).value.trim()),
+      value : 0,
       scanTime : parseFloat((document.getElementById('scanTimeD') as HTMLInputElement).value.trim()),
       isScanOn: false,
       type: "DI",
@@ -236,6 +251,59 @@ export class DbManagerComponent implements OnInit {
       next: (result) => {
         alert("Alarm added")
         this.openAddAlarm = false
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
+  createAO(){
+    this.openCreateAO = true
+  }
+
+  sendCreateAO() {
+    const dto = {
+      name : (document.getElementById('nameCO') as HTMLInputElement).value.trim(),
+      ioAddress : this.selectedAOAddress.trim(),
+      description : (document.getElementById('descriptionCO') as HTMLInputElement).value.trim(),
+      value : parseFloat((document.getElementById('valueCO') as HTMLInputElement).value.trim()),
+      lowLimit : parseFloat((document.getElementById('lowLimitCO') as HTMLInputElement).value.trim()),
+      highLimit : parseFloat((document.getElementById('highLimitCO') as HTMLInputElement).value.trim()),
+      type: "AO",
+      unit: (document.getElementById('unitCO') as HTMLInputElement).value.trim()
+    }
+
+    this.tagService.createTag(dto).subscribe({
+      next: (result) => {
+        alert("Tag edited")
+        this.openCreateAO = false
+      },
+      error: (error) => {
+        // Handle errors here, you can display an error message if needed
+        console.error('Error fetching tags:', error);
+      },
+    });
+  }
+
+  createDO(){
+    this.openCreateDO = true
+  }
+
+  sendCreateDO() {
+    const dto = {
+      name : (document.getElementById('nameDO') as HTMLInputElement).value.trim(),
+      ioAddress : this.selectedDOAddress.trim(),
+      description : (document.getElementById('descriptionDO') as HTMLInputElement).value.trim(),
+      value : parseFloat((document.getElementById('valueDO') as HTMLInputElement).value.trim()),
+      type: "DO",
+    }
+
+    this.tagService.createTag(dto).subscribe({
+      next: (result) => {
+        alert("Tag edited")
+        this.openCreateDO = false
       },
       error: (error) => {
         // Handle errors here, you can display an error message if needed

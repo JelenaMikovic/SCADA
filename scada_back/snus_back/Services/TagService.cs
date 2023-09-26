@@ -9,9 +9,11 @@ namespace scada_back.Services
     public class TagService: ITagService
     {
         public TagRepository tagRepository;
+        public ScanService scanService;
         
-        public TagService(TagRepository tagRepository) {
+        public TagService(TagRepository tagRepository, ScanService scanService) {
             this.tagRepository = tagRepository;
+            this.scanService = scanService;
         }
 
         public void CreateTag(CreateTagDTO createTagDTO)
@@ -30,6 +32,8 @@ namespace scada_back.Services
                 TagType = (TagType)Enum.Parse(typeof(TagType), createTagDTO.Type)
             };
             this.tagRepository.AddTag(tag);
+            if(tag.TagType == TagType.DI || tag.TagType == TagType.AI)
+            { this.scanService.AddNewTag(tag); }
         }
 
         public void DeleteTag(int tagId)
@@ -54,7 +58,10 @@ namespace scada_back.Services
                 HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null,
                 Unit = createTagDTO.Unit
             };
-            this.tagRepository.UpdateTag(tag);
+            lock (Utils._lock)
+            {
+                this.tagRepository.UpdateTag(tag);
+            }
         }
 
         public List<TagDTO> getAllTags()
@@ -87,15 +94,17 @@ namespace scada_back.Services
 
         public void ToggleIsScanOn(int tagId)
         {
-            Tag tag = tagRepository.GetTagById(tagId);
-            if (tag != null)
-            {
-                tag.IsScanOn = !tag.IsScanOn;
-                tagRepository.UpdateTag(tag);
-            }
-            else
-            {
-                throw new Exception();
+            lock(Utils._lock){
+                Tag tag = tagRepository.GetTagById(tagId);
+                if (tag != null)
+                {
+                    tag.IsScanOn = !tag.IsScanOn;
+                    tagRepository.UpdateTag(tag);
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
         }
     }

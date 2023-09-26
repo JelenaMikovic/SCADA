@@ -12,7 +12,10 @@ export class DeviceService {
   private baseUrl = 'http://localhost:5184/api/Device';
 
   getDevices(): Observable<DeviceDTO[]> {
-    return this.http.get<any>(`${this.baseUrl}`);
+    return this.http.get<any>(`${this.baseUrl}/input`);
+  }
+  getOutputDevices(): Observable<DeviceDTO[]> {
+    return this.http.get<any>(`${this.baseUrl}/output`);
   }
 
 }
