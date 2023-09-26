@@ -5,15 +5,6 @@ namespace scada_back.Database
 {
     public class DatabaseContext: DbContext
     {
-        public DatabaseContext(DbContextOptions<DatabaseContext> options)
-        : base(options)
-        {
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseInMemoryDatabase("scada");
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Alarm> Alarms { get; set; }
@@ -21,6 +12,7 @@ namespace scada_back.Database
         public DbSet<AlarmRecord> AlarmRecords { get; set; }
         public DbSet<TagRecord> TagRecords { get; set; }
 
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -18,6 +18,8 @@
     <li class="table-row">
       <div class="col col-1"><button (click)="createAI()">Add new analog input+</button></div>
       <div class="col col-1"><button (click)="createDI()">Add new digital input+</button></div>
+      <div class="col col-1"><button (click)="createAO()">Add new analog output+</button></div>
+      <div class="col col-1"><button (click)="createDO()">Add new digital output+</button></div>
     </li>
     <li *ngFor="let tag of allTags" class="table-row">
       <div class="col col-1">{{tag.id}}</div>
@@ -77,8 +79,6 @@
         <option value="RAMP">Simulation - RAMP</option>
         <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
       </select>
-      <label for="value"><b>Value</b></label>
-      <input type="text" id="valueC"name="valueC">
       <label for="unit"><b>Unit</b></label>
       <input type="text" id="unitC" name="unitC">
       <label for="lowLimit"><b>Low Limit</b></label>
@@ -104,14 +104,58 @@
         <option value="RAMP">Simulation - RAMP</option>
         <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
       </select>
-      <label for="value"><b>Value</b></label>
-      <input type="text" id="valueD"name="valueD">
       <label for="scanTime"><b>Scan Time</b></label>
       <input type="text" id="scanTimeD" name="scanTimeD">             
       <button type="submit" class="btn" (click)="sendCreateDI()">Save</button>
       <button type="button" class="btn cancel" (click)="close()">Close</button>          
     </div>
   </div>
+
+  <div class="form-popup" *ngIf="openCreateAO">
+    <div class="form-container">
+      <label for="name"><b>Name</b></label>
+      <input type="text" id="nameC" name="nameC">
+      <label for="description"><b>Description</b></label>
+      <input type="text" id="descriptionC"  name="descriptionC">
+      <label for="ioAddress"><b>IO Address</b></label>
+      <select [(ngModel)]="selectedAOAddress" name="type">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
+        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
+      <label for="value"><b>Initial Value</b></label>
+      <input type="text" id="valueCO"name="valueC">
+      <label for="unit"><b>Unit</b></label>
+      <input type="text" id="unitCO" name="unitC">
+      <label for="lowLimit"><b>Low Limit</b></label>
+      <input type="text" id="lowLimitCO" name="lowLimitC">
+      <label for="highLimit"><b>High Limit</b></label>
+      <input type="text"id="highLimitCO" name="highLimitC">          
+      <button type="submit" class="btn" (click)="sendCreateAO()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+  <div class="form-popup" *ngIf="openCreateDO">
+    <div class="form-container">
+      <label for="name"><b>Name</b></label>
+      <input type="text" id="nameDO" name="nameD">
+      <label for="description"><b>Description</b></label>
+      <input type="text" id="descriptionDO"  name="descriptionD">
+      <label for="ioAddress"><b>IO Address</b></label>
+      <select [(ngModel)]="selectedDOAddress" name="type">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
+        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
+      <label for="value"><b>Value</b></label>
+      <input type="text" id="valueDO"name="valueD">          
+      <button type="submit" class="btn" (click)="sendCreateDO()">Save</button>
+      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+    </div>
+  </div>
+
 
   <div class="form-popup" *ngIf="openAlarms">
     <div class="form-container">     
@@ -133,7 +177,6 @@
       <button type="button" class="btn cancel" (click)="close()">Close</button>          
     </div>
   </div>
-
   <div class="form-popup" *ngIf="openAddAlarm">
     <div class="form-container"> 
       <label for="value"><b>Value</b></label>

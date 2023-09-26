@@ -29,12 +29,41 @@ namespace scada_back.Controllers
             }
         }
 
-        [HttpGet]
-        public ActionResult GetAvailableDevices()
+        [HttpPost]
+        public ActionResult CreateDevices(List<DeviceDTO> devicesDtos)
         {
             try
             {
-                return Ok(this.deviceService.GetAvailableDevices());
+                this.deviceService.CreateDevices(devicesDtos);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("input")]
+        public ActionResult GetAvailableInputDevices()
+        {
+            try
+            {
+                return Ok(this.deviceService.GetAvailableInputDevices());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("output")]
+        public ActionResult GetAvailableOutputDevices()
+        {
+            try
+            {
+                return Ok(this.deviceService.GetAvailableOutputDevices());
             }
             catch (Exception e)
             {

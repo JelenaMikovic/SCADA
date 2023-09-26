@@ -13,10 +13,19 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddCors();
 
-builder.Services.AddDbContext<DatabaseContext>(options =>
+/*builder.Services.AddDbContext<DatabaseContext>(options =>
 {
-    options.UseInMemoryDatabase("scada");
-});
+    options.UseLazyLoadingProxies().
+    UseSqlite("Data Source = scada.db");
+}, ServiceLifetime.Transient);
+
+*/
+
+builder.Services.AddSingleton<DatabaseContext>(options =>
+{
+    options.UseLazyLoadingProxies().
+    UseSqlite("Data Source = scada.db");
+}, ServiceLifetime.Transient);
 
 // Services
 builder.Services.AddTransient<IUserService, UserService>();

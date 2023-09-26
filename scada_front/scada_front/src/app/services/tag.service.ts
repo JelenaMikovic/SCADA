@@ -27,7 +27,7 @@ export class TagService {
     return this.http.put<any>(`${this.baseUrl}`, dto);
   }
 
-  createTag(dto: { name: string; ioAddress: string; description: string; value: number; lowLimit?: number; highLimit?: number; scanTime: number; isScanOn: boolean; type: string; unit?: string; }): Observable<any> {
+  createTag(dto: { name: string; ioAddress: string; description: string; value: number; lowLimit?: number; highLimit?: number; scanTime?: number; isScanOn?: boolean; type: string; unit?: string; }): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, dto);
   }
 
