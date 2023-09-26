@@ -3,6 +3,8 @@ using scada_back.Database;
 using scada_back.Repositories;
 using scada_back.Services.IServices;
 using scada_back.Services;
+using scada_back.Handlers;
+using scada_back.HandlersHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,8 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ITagService, TagService>();
 builder.Services.AddTransient<IAlarmService, AlarmService>();
 builder.Services.AddTransient<IDeviceService, DeviceService>();
+builder.Services.AddTransient<ScanService>();
+builder.Services.AddTransient<SimulationService>();
 
 
 // Repositories
@@ -65,11 +69,16 @@ app.UseEndpoints(endpoints =>
 
 app.MapRazorPages();
 
-// Now, access DatabaseContext within the app context
-using (var scope = app.Services.CreateScope())
+app.MapHub<TagHub>("/hub/updateTag");
+app.MapHub<AlarmHub>("/hub/updateAlarm");
+app.UseWebSockets(new WebSocketOptions
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-    dbContext.Database.EnsureCreated(); // Ensure the database is created
-}
+    KeepAliveInterval = TimeSpan.FromSeconds(120),
+});
+
+app.MapRazorPages();
+
+using var scope = app.Services.CreateScope();
+scope.ServiceProvider.GetRequiredService<ScanService>().Run();
 
 app.Run();

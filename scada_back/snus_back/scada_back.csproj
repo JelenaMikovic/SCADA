@@ -21,8 +21,4 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.11" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Hubs\" />
-  </ItemGroup>
-
 </Project>
