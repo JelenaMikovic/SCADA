@@ -13,6 +13,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { TrendingComponent } from './trending/trending.component';
+import { AlarmDisplayComponent } from './alarm-display/alarm-display.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { TrendingComponent } from './trending/trending.component';
     LoginComponent,
     NavbarComponent,
     DbManagerComponent,
-    TrendingComponent
+    TrendingComponent,
+    AlarmDisplayComponent
   ],
   imports: [
     BrowserModule,

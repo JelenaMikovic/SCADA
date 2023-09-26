@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Database;
 using scada_back.Models;
-using snus_back.Models;
 using System.Security.Claims;
 
 namespace scada_back.Repositories
@@ -18,6 +17,11 @@ namespace scada_back.Repositories
         public Alarm GetByAlarmId(int alarmId)
         {
             return dbContext.Alarms.FirstOrDefault(t => t.Id == alarmId);
+        }
+
+        public List<AlarmRecord> GetAlarmRecords()
+        {
+            return dbContext.AlarmRecords.ToList();
         }
 
         public List<Alarm> GetByTagId(int tagId)

@@ -6,22 +6,24 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MonoDevelop.Ide.Workbench ActiveDocument="snus_back/Controllers/UserController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="snus_back/Controllers/AlarmController.cs">
     <Files>
-      <File FileName="snus_back/Controllers/UserController.cs" Line="1" Column="1" />
+      <File FileName="snus_back/Controllers/AlarmController.cs" Line="25" Column="34" />
+      <File FileName="snus_back/Services/AlarmService.cs" Line="20" Column="45" />
+      <File FileName="snus_back/Repositories/AlarmRepository.cs" Line="22" Column="38" />
+      <File FileName="snus_back/Database/DatabaseContext.cs" Line="7" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="scada_back">
-            <Node name="scada_back" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="UserController.cs" selected="True" />
+          <Node name="scada_back" expanded="True">
+            <Node name="scada_back">
+              <Node name="Controllers">
+                <Node name="AlarmController.cs" selected="True" />
               </Node>
               <Node name="Database" expanded="True" />
-              <Node name="Services" expanded="True">
-                <Node name="IServices" expanded="True" />
-              </Node>
+              <Node name="Models" expanded="True" />
+              <Node name="Repositories" expanded="True" />
             </Node>
           </Node>
         </State>
