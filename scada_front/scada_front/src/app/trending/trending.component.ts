@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {TagDTO, TagService} from "../services/tag.service";
+import {TagRecordDTO} from "../services/web-socket.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {HttpTransportType, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
 @Component({
   selector: 'app-trending',
@@ -11,6 +13,9 @@ import {Router} from "@angular/router";
 })
 export class TrendingComponent implements OnInit{
   allTags: TagDTO[] = [];
+  tagUpdateConnection: any;
+  alarmUpdateConnection: any;
+
   constructor(private dialog: MatDialog, private tagService: TagService, private snackBar: MatSnackBar, private router: Router) { }
 
   getAllTags() {
@@ -24,9 +29,7 @@ export class TrendingComponent implements OnInit{
             }
           }
         }
-        console.log("PROTRCAO")
         console.log(this.allTags);
-        // this.allTags = result as TagDTO[];
       },
       error: (error) => {
         // Handle errors here, you can display an error message if needed
@@ -35,8 +38,65 @@ export class TrendingComponent implements OnInit{
     });
   }
 
+  updateTag(update:any){
+    for (let tag of this.allTags){
+      if (tag.id == update.tagId){
+        tag.value = update.value;
+      }
+    }
+  }
+
+  initTagUpdateWebSocket() {
+    this.tagUpdateConnection = new HubConnectionBuilder()
+      .configureLogging(LogLevel.Debug)
+      .withUrl('https://localhost:7012/hub/updateTag', {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets
+      })
+      .build();
+    this.tagUpdateConnection
+      .start()
+      .then(() => console.log('Connection started'))
+      .catch(() => console.log('Error while starting connection: '))
+    this.tagUpdateConnection.on('input', (from: string, body: string) => {
+      console.log(from, body);
+      this.updateTag(from);
+    });
+  }
+
+  initAlarmUpdateWebSocket() {
+    this.alarmUpdateConnection = new HubConnectionBuilder()
+      .configureLogging(LogLevel.Debug)
+      .withUrl('https://localhost:7012/hub/updateAlarm', {
+        skipNegotiation: true,
+        transport: HttpTransportType.WebSockets
+      })
+      .build();
+    this.alarmUpdateConnection
+      .start()
+      .then(() => console.log('Connection started'))
+      .catch(() => console.log('Error while starting connection: '))
+    this.alarmUpdateConnection.on('alarm', (from: string, body: string) => {
+      console.log(from, body);
+      this.handleAlarmUpdateWebSocket(from);
+    });
+  }
+
+  handleAlarmUpdateWebSocket(alarmRecord: any){
+    console.log(alarmRecord);
+    for (let tag of this.allTags){
+      if (tag.id == alarmRecord.tagId){
+        //TODO handle alarm update from back
+        this.snackBar.open('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .",'Close',{duration:3000});
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.getAllTags();
+    this.initTagUpdateWebSocket();
+    this.initAlarmUpdateWebSocket();
   }
+
 
 }

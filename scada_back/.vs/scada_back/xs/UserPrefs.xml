@@ -4,20 +4,19 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="snus_back/Controllers/TagController.cs">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="snus_back/Controllers/UserController.cs">
     <Files>
-      <File FileName="snus_back/Controllers/TagController.cs" Line="13" Column="3" />
       <File FileName="snus_back/Controllers/UserController.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="scada_back" expanded="True">
+          <Node name="scada_back">
             <Node name="scada_back" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="TagController.cs" selected="True" />
+                <Node name="UserController.cs" selected="True" />
               </Node>
               <Node name="Database" expanded="True" />
               <Node name="Services" expanded="True">
