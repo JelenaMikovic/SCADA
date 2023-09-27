@@ -71,5 +71,18 @@ namespace scada_back.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult GetDevices()
+        {
+            try
+            {
+                return Ok(this.deviceService.GetDevices());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
     }
 }

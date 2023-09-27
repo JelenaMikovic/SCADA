@@ -8,5 +8,6 @@ namespace scada_back.Services.IServices
         List<DeviceDTO> GetAvailableInputDevices();
         void UpdateValues(List<DeviceDTO> devicesDtos);
         void CreateDevices(List<DeviceDTO> devicesDtos);
+        List<DeviceDTO> GetDevices();
     }
 }

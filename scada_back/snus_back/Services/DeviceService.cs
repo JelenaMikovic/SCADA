@@ -58,5 +58,15 @@ namespace scada_back.Services
                     this.deviceRepository.AddDevice(new Device { IOAddress = deviceDTO.IOAddress, Value = deviceDTO.Value, Type = (DeviceType)Enum.Parse(typeof(DeviceType), deviceDTO.Type) });
             }
         }
+
+        public List<DeviceDTO> GetDevices()
+        {
+            List<DeviceDTO> devices = new List<DeviceDTO>();
+            foreach (Device device in deviceRepository.GetAllDevices())
+            {
+               devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
+            }
+            return devices;
+        }
     }
 }
