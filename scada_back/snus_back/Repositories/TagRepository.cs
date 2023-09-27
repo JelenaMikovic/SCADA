@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using scada_back.Database;
 using scada_back.Models;
+using System.Net;
 using EntityState = Microsoft.EntityFrameworkCore.EntityState;
 
 namespace scada_back.Repositories
@@ -81,6 +82,11 @@ namespace scada_back.Repositories
         public List<TagRecord> GetAllRecords()
         {
             return this.dbContext.TagRecords.ToList();
+        }
+
+        public TagRecord GetRecordByTagID(int id)
+        {
+            return dbContext.TagRecords.FirstOrDefault(t => t.TagId == id);
         }
     }
 }
