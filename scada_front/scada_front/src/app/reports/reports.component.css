@@ -2,9 +2,22 @@
 * {
 	box-sizing: border-box;
 	margin: 0;
-	padding: 0;	
+	padding: 0;
 	font-family: Raleway, sans-serif;
 }
+
+.button-container {
+  text-align: center; /* Center-align the buttons horizontally */
+}
+
+#buttons .btn {
+  display: inline-block; /* Display buttons in a line */
+  margin: 10px; /* Add margin for spacing between buttons */
+}
+
+
+
+
 
 
 .container {
