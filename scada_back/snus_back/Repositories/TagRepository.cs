@@ -77,5 +77,10 @@ namespace scada_back.Repositories
                 this.dbContext.SaveChanges();
             }
         }
+
+        public List<TagRecord> GetAllRecords()
+        {
+            return this.dbContext.TagRecords.ToList();
+        }
     }
 }

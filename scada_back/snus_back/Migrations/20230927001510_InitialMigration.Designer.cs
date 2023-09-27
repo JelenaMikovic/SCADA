@@ -11,7 +11,7 @@ using scada_back.Database;
 namespace scada_back.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230927000045_InitialMigration")]
+    [Migration("20230927001510_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

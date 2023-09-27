@@ -71,5 +71,35 @@ namespace scada_back.Controllers
                 return BadRequest(new { Message = e.Message });
             }
         }
+
+        [HttpPost]
+        [Route("dates")]
+        public ActionResult GetAllAlarmsBetweenDates(DateRangeDTO dto)
+        {
+            try
+            {
+                ICollection<AlarmRecordDTO> ret = this.alarmService.GetAlarmsBetweenDates(dto.StartTime, dto.EndTime);
+                return Ok(ret);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("{priority}")]
+        public ActionResult GetAllAlarmsByPriority(string priority)
+        {
+            try
+            {
+                ICollection<AlarmRecordDTO> ret = this.alarmService.GetAlarmsByPriority(priority);
+                return Ok(ret);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
     }
 }

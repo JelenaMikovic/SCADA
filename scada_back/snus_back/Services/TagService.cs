@@ -84,11 +84,6 @@ namespace scada_back.Services
             return tags;
         }
 
-        public ICollection<TagDTO> getAllTagsByIOAddress(string adress)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ToggleIsScanOn(int tagId)
         {
             Tag tag = tagRepository.GetTagById(tagId);
@@ -102,6 +97,19 @@ namespace scada_back.Services
             {
                 throw new Exception();
             }
+        }
+
+        public ICollection<TagRecordDTO> GetAllRecordsByIOAddress(string address)
+        {
+            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            foreach(TagRecord record in this.tagRepository.GetAllRecords())
+            {
+                if(tagRepository.GetTagById(record.TagId).IOAddress == address)
+                {
+                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+                }
+            }
+            return tagRecordDTOs;
         }
     }
 }

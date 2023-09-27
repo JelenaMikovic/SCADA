@@ -77,7 +77,10 @@ namespace scada_back.Services
         }
         public void AddNewTag(Tag tag)
         {
-            this.tags.Add(tag);
+            lock (Utils._lock)
+            {
+                this.tags.Add(tag);
+            }
             Thread thread = new Thread(() => StartSimulationThread(tag));
             thread.Start();
         }
@@ -85,22 +88,34 @@ namespace scada_back.Services
 
         public void AddNewAlarm(Alarm alarm)
         {
-            this.alarms.Add(alarm);
+            lock (Utils._lock)
+            {
+                this.alarms.Add(alarm);
+            }
         }
 
         public void RemoveAlarm(int id)
         {
-            this.alarms.Remove(this.alarms.Find(a => a.Id == id)); ;
+            lock (Utils._lock)
+            {
+                this.alarms.Remove(this.alarms.Find(a => a.Id == id));
+            }
         }
 
         public void ToggleScan(int id)
         {
-            this.tags.Find(t => t.Id == id).IsScanOn = !this.tags.Find(t => t.Id == id).IsScanOn;
+            lock (Utils._lock)
+            {
+                this.tags.Find(t => t.Id == id).IsScanOn = !this.tags.Find(t => t.Id == id).IsScanOn;
+            }
         }
 
         public void DeleteTag(int id)
         {
-            this.tags.Remove(this.tags.Find(t => t.Id == id));
+            lock (Utils._lock)
+            {
+                this.tags.Remove(this.tags.Find(t => t.Id == id));
+            }
         }
 
         public void EditTag(Tag tag)
@@ -116,8 +131,11 @@ namespace scada_back.Services
 
             while (true)
             {
-                tag = this.tags.Find(t => t.Id == tag.Id);
-                
+                lock (Utils._lock)
+                {
+                    tag = this.tags.Find(t => t.Id == tag.Id);
+                }
+
                 if (tag == null)
                 {
                     break;
@@ -137,8 +155,12 @@ namespace scada_back.Services
                         }
                     }
                     currentAlarm = null;
-
-                    foreach (Alarm alarm in this.alarms.FindAll(t => t.TagId == tag.Id))
+                    List<Alarm> found;
+                    lock (Utils._lock)
+                    {
+                        found = this.alarms.FindAll(t => t.TagId == tag.Id);
+                    }
+                    foreach (Alarm alarm in found)
                     {
                         Console.WriteLine(alarm);
                         if ((alarm.Type == Type.HIGHER && currentValue >= alarm.Value) || (alarm.Type == Type.LOWER && currentValue <= alarm.Value))
@@ -159,6 +181,7 @@ namespace scada_back.Services
 
                     if (currentAlarm != null)
                     {
+                        Console.WriteLine("PROSO");
                         if (currentAlarm.Type == Type.HIGHER) { currentValue = (double)tag.HighLimit; }
                         else { currentValue = (double)tag.LowLimit; }
 
@@ -166,9 +189,9 @@ namespace scada_back.Services
 
                         lock (Utils._lock)
                         {
-                            AlarmRecordDTO notify = new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value };
+                            AlarmRecordDTO notify = new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value, TimeStamp = DateTime.Now };
                             alarmHub.Clients.All.SendAsync("alarm", notify);
-                            alarmHandler.SendDataToClient("alarm", notify);
+                            //alarmHandler.SendDataToClient("alarm", notify);
                             alarmRecords.Add(alarmRecord);
                         }
                     }

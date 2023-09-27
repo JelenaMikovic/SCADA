@@ -5,7 +5,7 @@ using scada_back.Services.IServices;
 
 namespace scada_back.Controllers
 {
-	[ApiController]
+    [ApiController]
 	[Route("api/[controller]")]
 	public class TagController : Controller
 	{
@@ -79,6 +79,22 @@ namespace scada_back.Controllers
             {
                 this.tagService.ToggleIsScanOn(tagId);
                 return Ok(new { Message = "Scan toggled successfully" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("{address}")]
+        public ActionResult GetAllRecordsByIOAddress(string address)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(address);
+                ICollection<TagRecordDTO> ret = this.tagService.GetAllRecordsByIOAddress(address);
+                return Ok(ret);
             }
             catch (Exception e)
             {

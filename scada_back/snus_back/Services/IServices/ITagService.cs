@@ -10,5 +10,6 @@ namespace scada_back.Services.IServices
         void DeleteTag(int tagId);
         void UpdateTag(UpdateTagDTO updateTagDTO);
         void ToggleIsScanOn(int tagId);
+        ICollection<TagRecordDTO> GetAllRecordsByIOAddress(string address);
     }
 }

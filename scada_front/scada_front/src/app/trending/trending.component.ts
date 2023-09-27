@@ -86,7 +86,8 @@ export class TrendingComponent implements OnInit{
 
   handleAlarmUpdateWebSocket(alarmRecord: any){
     //console.log(alarmRecord);
-    this.snackBar.open('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .",'Close',{duration:3000});
+    //this.snackBar.open('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .",'Close',{duration:3000});
+    alert('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .")
   }
 
   ngOnInit(): void {

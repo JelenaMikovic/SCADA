@@ -9,5 +9,7 @@ namespace scada_back.Services.IServices
         void DeleteAlarm(int id);
         List<AlarmDTO> GetTagsAlarms(int tagId);
         List<AlarmRecord> GetAlarmRecords();
+        ICollection<AlarmRecordDTO> GetAlarmsByPriority(string priority);
+        ICollection<AlarmRecordDTO> GetAlarmsBetweenDates(DateTime startTime, DateTime endTime);
     }
 }

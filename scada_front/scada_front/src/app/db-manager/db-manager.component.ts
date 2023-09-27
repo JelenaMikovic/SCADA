@@ -50,26 +50,28 @@ export class DbManagerComponent implements OnInit {
     this.deviceService.getDevices().subscribe({
       next: (result) => {
         this.allDevices = result as DeviceDTO[];
+        this.deviceService.getOutputDevices().subscribe({
+          next: (result) => {
+            this.allOutputDevices = result as DeviceDTO[];
+          },
+          error: (error) => {
+            console.error('Error fetching tags:', error);
+          },
+        });
       },
       error: (error) => {
         console.error('Error fetching tags:', error);
       },
     });
-    this.deviceService.getOutputDevices().subscribe({
-      next: (result) => {
-        this.allOutputDevices = result as DeviceDTO[];
-      },
-      error: (error) => {
-        console.error('Error fetching tags:', error);
-      },
-    });
+    
   }
 
   getAllAlarms(tagId: number) {
+    this.openAlarms = true;
     this.alarmService.getTagsAlarms(tagId).subscribe({
       next: (result) => {
         this.allAlarms = result as AlarmDTO[];
-        this.openAlarms = true;
+        
         this.selectedId = tagId
         console.log(result)
       },

@@ -2,6 +2,7 @@
 using scada_back.Models;
 using scada_back.Repositories;
 using scada_back.Services.IServices;
+using System.Security.Claims;
 using Type = scada_back.Models.Type;
 
 namespace scada_back.Services
@@ -51,15 +52,46 @@ namespace scada_back.Services
         }
 
         public List<AlarmDTO> GetTagsAlarms(int id) {
+            Console.WriteLine("1");
             List<AlarmDTO> alarmsDTO = new List<AlarmDTO>();
             List<Alarm> alarms;
             alarms = this.alarmRepository.GetByTagId(id);
+            Console.WriteLine(alarms);
             foreach (Alarm alarm in alarms)
             {
                 alarmsDTO.Add(new AlarmDTO { Id = alarm.Id, Priority = alarm.Priority.ToString(), TagId = alarm.TagId, Type = alarm.Type.ToString(), Value = alarm.Value });
                 Console.WriteLine(alarm.Value);
             }
             return alarmsDTO;
+        }
+
+        public ICollection<AlarmRecordDTO> GetAlarmsByPriority(string priorityString)
+        {
+            Priority priority = (Priority)Enum.Parse(typeof(Priority), priorityString.ToUpper());
+            ICollection<AlarmRecordDTO> alarmRecordsDTO = new List<AlarmRecordDTO>();
+
+            foreach (AlarmRecord record in alarmRepository.GetAlarmRecords())
+            {
+                Alarm alarm = alarmRepository.GetByAlarmId(record.AlarmId);
+                if (alarm.Priority == priority)
+                { alarmRecordsDTO.Add(new AlarmRecordDTO { Priority = priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
+            }
+
+            return alarmRecordsDTO;
+        }
+
+        public ICollection<AlarmRecordDTO> GetAlarmsBetweenDates(DateTime startTime, DateTime endTime)
+        {
+            ICollection<AlarmRecordDTO> alarmRecordsDTO = new List<AlarmRecordDTO>();
+
+            foreach (AlarmRecord record in alarmRepository.GetAlarmRecords())
+            {
+                if (record.Timestamp <= endTime && record.Timestamp >= startTime)
+                { Alarm alarm = alarmRepository.GetByAlarmId(record.AlarmId); 
+                  alarmRecordsDTO.Add(new AlarmRecordDTO { Priority = alarm.Priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
+            }
+
+            return alarmRecordsDTO;
         }
     }
 }
