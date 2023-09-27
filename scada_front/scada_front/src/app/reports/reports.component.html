@@ -1,20 +1,20 @@
-<p>reports works!</p>
 <div id="buttons">
-  <button (click)="timePeriodReportSeleceted()">All alarms spec time</button>
-  <button (click)="priorityReportSeleceted()">All alarms spec priority</button>
-  <button (click)="tagRecordsTimeReportSelected()">All tag values spec time</button>
-  <button (click)="aiReportsSelected()">All AI tag values</button>
-  <button (click)="diReportsSelected()">All DI tag values</button>
-  <button (click)="specTagReportSelected()">All values spec tag</button>
+  <br><br>
+  <button class="btn" (click)="timePeriodReportSeleceted()">All alarms spec time</button>
+  <button class="btn" (click)="priorityReportSeleceted()">All alarms spec priority</button>
+  <button class="btn" (click)="tagRecordsTimeReportSelected()">All tag values spec time</button>
+  <button class="btn" (click)="aiReportsSelected()">All AI tag values</button>
+  <button class="btn" (click)="diReportsSelected()">All DI tag values</button>
+  <button class="btn" (click)="specTagReportSelected()">All values spec tag</button>
 </div>
 <div id="tables">
 
 <!--  ALARMI ODREDJENI VR PERIOD-->
   <div class="container" *ngIf="timePeriodReport">
     <div>
-      <input type="date" id="from" placeholder="FROM:">
-      <input type="date" id="to" placeholder="TO:"><br><br>
-      <button (click)="getTimePeriodReportData()">Get data</button>
+      <input type="date" class="kaka" id="from" placeholder="FROM:">
+      <input type="date" class="kaka" id="to" placeholder="TO:"><br><br>
+      <button (click)="getTimePeriodReportData()" class="btn" >Get data<br></button>
     </div>
     <ul class="responsive-table">
       <li class="table-header">
@@ -25,7 +25,7 @@
       <li  class="table-row" *ngFor="let alarm of alarmRecords">
         <div class="col col-4">{{alarm.alarmId}}</div>
         <div class="col col-4">{{alarm.tagId}}</div>
-        <div class="col col-4">{{alarm.timestamp}}</div>
+        <div class="col col-4">{{alarm.timeStamp}}</div>
       </li>
     </ul>
   </div>
@@ -34,7 +34,7 @@
   <div class="container" *ngIf="priorityReport">
     <div>
       <label><b>Priority</b></label>
-      <select [(ngModel)]="selectedPriority" name="priority" (click)="getPriorityReportData()">
+      <select [(ngModel)]="selectedPriority"  class="kaka" name="priority" (click)="getPriorityReportData()">
         <option value="LOW">LOW</option>
         <option value="MEDIUM">MEDIUM</option>
         <option value="HIGH">HIGH</option>
@@ -49,7 +49,7 @@
       <li  class="table-row" *ngFor="let alarm of alarmRecords">
         <div class="col col-4">{{alarm.alarmId}}</div>
         <div class="col col-4">{{alarm.tagId}}</div>
-        <div class="col col-4">{{alarm.timestamp}}</div>
+        <div class="col col-4">{{alarm.timeStamp}}</div>
       </li>
     </ul>
   </div>
@@ -58,9 +58,9 @@
   <!--  TAG RECORDS-->
   <div class="container" *ngIf="tagRecordsTimeReport">
     <div>
-      <input type="text" id="fromTag" placeholder="FROM:">
-      <input type="text" id="toTag" placeholder="TO:"><br><br>
-      <button (click)="getTagRecordsTimeReportData()">Get data</button>
+      <input type="date" class="kaka" id="fromTag" placeholder="FROM:">
+      <input type="date" class="kaka" id="toTag" placeholder="TO:"><br><br>
+      <button (click)="getTagRecordsTimeReportData()" class="btn" >Get data<br></button>
     </div>
     <ul class="responsive-table">
       <li class="table-header">
@@ -119,7 +119,10 @@
 <!--  SVE VREDNOSTI JEDNOG TAGA-->
   <div class="container" *ngIf="specTagReport">
     <div>
-      <select [(ngModel)]="selectedIOAddress" name="type">
+      <select [(ngModel)]="selectedIOAddress" name="type"  class="kaka">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
         <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
       </select>
     </div>

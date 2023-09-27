@@ -47,8 +47,9 @@ export interface AlarmDTO {
 }
 
 export interface AlarmRecordDTO{
-  id:number
+  priority:number
   alarmId:number;
   tagId:number;
-  timestamp:Date;
+  timeStamp:Date;
+  type:string;
 }

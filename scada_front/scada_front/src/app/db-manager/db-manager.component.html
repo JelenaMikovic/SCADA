@@ -16,10 +16,10 @@
       <div class="col col-1">Delete</div>
     </li>
     <li class="table-row">
-      <div class="col col-1"><button (click)="createAI()">Add new analog input+</button></div>
-      <div class="col col-1"><button (click)="createDI()">Add new digital input+</button></div>
-      <div class="col col-1"><button (click)="createAO()">Add new analog output+</button></div>
-      <div class="col col-1"><button (click)="createDO()">Add new digital output+</button></div>
+      <div class="col"><button class="btn" (click)="createAI()">Add new analog input+</button></div>
+      <div class="col"><button class="btn" (click)="createDI()">Add new digital input+</button></div>
+      <div class="col"><button class="btn" (click)="createAO()">Add new analog output+</button></div>
+      <div class="col"><button class="btn" (click)="createDO()">Add new digital output+</button></div>
     </li>
     <li *ngFor="let tag of allTags" class="table-row">
       <div class="col col-1">{{tag.id}}</div>
@@ -31,172 +31,188 @@
       <div class="col col-4">{{tag.lowLimit}}</div>
       <div class="col col-4">{{tag.highLimit}}</div>
       <div class="col col-4">
-          <div class="button r" id="button-1" (click)="toggle(tag)">
-            <input type="checkbox" class="checkbox" [checked]="!tag.isScanOn" />
-            <div class="knobs"></div>
-            <div class="layer"></div>
-          </div>
+        <div class="button r" id="button-1" (click)="toggle(tag)">
+          <input type="checkbox" class="checkbox" [checked]="!tag.isScanOn" />
+          <div class="knobs"></div>
+          <div class="layer"></div>
+        </div>
       </div>
       <div class="col col-4">{{tag.scanTime}}</div>
-      <div class="col col-4" *ngIf="tag.tagType == 'AI'"><button (click)="getAllAlarms(tag.id)">Alarms</button></div>
+      <div class="col col-4" *ngIf="tag.tagType == 'AI'"><button (click)="getAllAlarms(tag.id)" class="btn">Alarms</button></div>
       <div class="col col-4" *ngIf="tag.tagType != 'AI'"></div>
-      <div class="col col-1"><button (click)="edit(tag)">Edit</button></div>
-      <div class="col col-1"><button (click)="delete(tag.id)">Delete</button></div>
+      <div class="col col-1"><button class="btn" (click)="edit(tag)">Edit</button></div>
+      <div class="col col-1"><button class="btn" (click)="delete(tag.id)">Delete</button></div>
     </li>
   </ul>
-  <div class="form-popup" *ngIf="openEdit">
-    <div class="form-container">
-      <label for="name"><b>Name</b></label>
-      <input type="text" id="name" placeholder="{{editTag.name}}" name="name">
-      <label for="description"><b>Description</b></label>
-      <input type="text" id="description" placeholder="{{editTag.description}}" name="description">
-      <label for="ioAddress"><b>IO Address</b></label>
-      <input type="text" id="ioAddress" placeholder="{{editTag.ioAddress}}" name="ioAddress">
-      <label for="value"><b>Value</b></label>
-      <input type="text" id="value" placeholder="{{editTag.value}}" name="value">
-      <label for="unit"><b>Unit</b></label>
-      <input type="text" id="unit" placeholder="{{editTag.unit}}" name="unit">
-      <label for="lowLimit" *ngIf="editTag.lowLimit"><b>Low Limit</b></label>
-      <input type="text" *ngIf="editTag.lowLimit" id="lowLimit" placeholder="{{editTag.lowLimit}}" name="lowLimit">
-      <label for="highLimit" *ngIf="editTag.highLimit"><b>High Limit</b></label>
-      <input type="text" *ngIf="editTag.highLimit" id="highLimit" placeholder="{{editTag.highLimit}}" name="highLimit">
-      <label for="scanTime" *ngIf="editTag.scanTime"><b>Scan Time</b></label>
-      <input type="text" *ngIf="editTag.scanTime" id="scanTime" placeholder="{{editTag.scanTime}}" name="scanTime">             
-      <button type="submit" class="btn" (click)="sendEdit()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+  <div class="overlay" *ngIf="openEdit">
+    <div class="form-popup">
+      <div class="form-container">
+        <label for="name"><b>Name</b></label>
+        <input type="text" id="name" placeholder="{{editTag.name}}" name="name">
+        <label for="description"><b>Description</b></label>
+        <input type="text" id="description" placeholder="{{editTag.description}}" name="description">
+        <label for="ioAddress"><b>IO Address</b></label>
+        <input type="text" id="ioAddress" placeholder="{{editTag.ioAddress}}" name="ioAddress">
+        <label for="value"><b>Value</b></label>
+        <input type="text" id="value" placeholder="{{editTag.value}}" name="value">
+        <label for="unit"><b>Unit</b></label>
+        <input type="text" id="unit" placeholder="{{editTag.unit}}" name="unit">
+        <label for="lowLimit" *ngIf="editTag.lowLimit"><b>Low Limit</b></label>
+        <input type="text" *ngIf="editTag.lowLimit" id="lowLimit" placeholder="{{editTag.lowLimit}}" name="lowLimit">
+        <label for="highLimit" *ngIf="editTag.highLimit"><b>High Limit</b></label>
+        <input type="text" *ngIf="editTag.highLimit" id="highLimit" placeholder="{{editTag.highLimit}}"
+          name="highLimit">
+        <label for="scanTime" *ngIf="editTag.scanTime"><b>Scan Time</b></label>
+        <input type="text" *ngIf="editTag.scanTime" id="scanTime" placeholder="{{editTag.scanTime}}" name="scanTime">
+        <button type="submit" class="btn" (click)="sendEdit()">Save</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
     </div>
   </div>
-  <div class="form-popup" *ngIf="openCreateAI">
-    <div class="form-container">
-      <label for="name"><b>Name</b></label>
-      <input type="text" id="nameC" name="nameC">
-      <label for="description"><b>Description</b></label>
-      <input type="text" id="descriptionC"  name="descriptionC">
-      <label for="ioAddress"><b>IO Address</b></label>
-      <select [(ngModel)]="selectedAIAddress" name="type">
-        <option value="SIN">Simulation - SINUS</option>
-        <option value="COS">Simulation - COSINUS</option>
-        <option value="RAMP">Simulation - RAMP</option>
-        <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
-      </select>
-      <label for="unit"><b>Unit</b></label>
-      <input type="text" id="unitC" name="unitC">
-      <label for="lowLimit"><b>Low Limit</b></label>
-      <input type="text" id="lowLimitC" name="lowLimitC">
-      <label for="highLimit"><b>High Limit</b></label>
-      <input type="text"id="highLimitC" name="highLimitC">
-      <label for="scanTime"><b>Scan Time</b></label>
-      <input type="text" id="scanTimeC" name="scanTime">            
-      <button type="submit" class="btn" (click)="sendCreateAI()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+  <div class="overlay" *ngIf="openCreateAI">
+    <div class="form-popup">
+      <div class="form-container">
+        <label for="name"><b>Name</b></label>
+        <input type="text" id="nameC" name="nameC">
+        <label for="description"><b>Description</b></label>
+        <input type="text" id="descriptionC" name="descriptionC">
+        <label for="ioAddress"><b><br>IO Address<br></b></label>
+        <select [(ngModel)]="selectedAIAddress" class="kaka" name="type">
+          <option value="SIN">Simulation - SINUS</option>
+          <option value="COS">Simulation - COSINUS</option>
+          <option value="RAMP">Simulation - RAMP</option>
+          <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+        </select>
+        <label for="unit"><b><br>Unit</b></label>
+        <input type="text" id="unitC" name="unitC">
+        <label for="lowLimit"><b>Low Limit</b></label>
+        <input type="number" id="lowLimitC" name="lowLimitC">
+        <label for="highLimit"><b>High Limit</b></label>
+        <input type="number" id="highLimitC" name="highLimitC">
+        <label for="scanTime"><b>Scan Time</b></label>
+        <input type="number" id="scanTimeC" name="scanTime">
+        <div class="row">
+          <button type="submit" class="btn" (click)="sendCreateAI()">Save</button>
+          <button type="button" class="btn cancel" (click)="close()">Close</button>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="form-popup" *ngIf="openCreateDI">
-    <div class="form-container">
-      <label for="name"><b>Name</b></label>
-      <input type="text" id="nameD" name="nameD">
-      <label for="description"><b>Description</b></label>
-      <input type="text" id="descriptionD"  name="descriptionD">
-      <label for="ioAddress"><b>IO Address</b></label>
-      <select [(ngModel)]="selectedDIAddress" name="type">
-        <option value="SIN">Simulation - SINUS</option>
-        <option value="COS">Simulation - COSINUS</option>
-        <option value="RAMP">Simulation - RAMP</option>
-        <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
-      </select>
-      <label for="scanTime"><b>Scan Time</b></label>
-      <input type="text" id="scanTimeD" name="scanTimeD">             
-      <button type="submit" class="btn" (click)="sendCreateDI()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
-    </div>
-  </div>
-
-  <div class="form-popup" *ngIf="openCreateAO">
-    <div class="form-container">
-      <label for="name"><b>Name</b></label>
-      <input type="text" id="nameCO" name="nameC">
-      <label for="description"><b>Description</b></label>
-      <input type="text" id="descriptionCO"  name="descriptionC">
-      <label for="ioAddress"><b>IO Address</b></label>
-      <select [(ngModel)]="selectedAOAddress" name="type">
-        <option value="SIN">Simulation - SINUS</option>
-        <option value="COS">Simulation - COSINUS</option>
-        <option value="RAMP">Simulation - RAMP</option>
-        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
-      </select>
-      <label for="value"><b>Initial Value</b></label>
-      <input type="text" id="valueCO"name="valueC">
-      <label for="unit"><b>Unit</b></label>
-      <input type="text" id="unitCO" name="unitC">
-      <label for="lowLimit"><b>Low Limit</b></label>
-      <input type="text" id="lowLimitCO" name="lowLimitC">
-      <label for="highLimit"><b>High Limit</b></label>
-      <input type="text"id="highLimitCO" name="highLimitC">          
-      <button type="submit" class="btn" (click)="sendCreateAO()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
-    </div>
-  </div>
-  <div class="form-popup" *ngIf="openCreateDO">
-    <div class="form-container">
-      <label for="name"><b>Name</b></label>
-      <input type="text" id="nameDO" name="nameD">
-      <label for="description"><b>Description</b></label>
-      <input type="text" id="descriptionDO"  name="descriptionD">
-      <label for="ioAddress"><b>IO Address</b></label>
-      <select [(ngModel)]="selectedDOAddress" name="type">
-        <option value="SIN">Simulation - SINUS</option>
-        <option value="COS">Simulation - COSINUS</option>
-        <option value="RAMP">Simulation - RAMP</option>
-        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
-      </select>
-      <label for="value"><b>Value</b></label>
-      <input type="text" id="valueDO"name="valueD">          
-      <button type="submit" class="btn" (click)="sendCreateDO()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+  <div class="overlay" *ngIf="openCreateDI">
+    <div class="form-popup">
+      <div class="form-container">
+        <label for="name"><b>Name</b></label>
+        <input type="text" id="nameD" name="nameD">
+        <label for="description"><b>Description</b></label>
+        <input type="text" id="descriptionD" name="descriptionD">
+        <label for="ioAddress"><b><br>IO Address<br></b></label>
+        <select class="kaka" [(ngModel)]="selectedDIAddress" name="type">
+          <option value="SIN">Simulation - SINUS</option>
+          <option value="COS">Simulation - COSINUS</option>
+          <option value="RAMP">Simulation - RAMP</option>
+          <option *ngFor="let address of allDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+        </select>
+        <label for="scanTime"><b><br>Scan Time</b></label>
+        <input type="number" id="scanTimeD" name="scanTimeD">
+        <button type="submit" class="btn" (click)="sendCreateDI()">Save</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
     </div>
   </div>
 
-
-  <div class="form-popup" *ngIf="openAlarms">
-    <div class="form-container">     
-      <ul class="responsive-table">
-        <li class="table-header">
-          <div class="col col-1">Value</div>
-          <div class="col col-4">Type</div>
-          <div class="col col-4">Priority</div>
-          <div class="col col-1">Delete</div>
-        </li>
-        <li *ngFor="let alarm of allAlarms" class="table-row">
-          <div class="col col-1">{{alarm.value}}</div>
-          <div class="col col-4">{{alarm.type}}</div>
-          <div class="col col-4">{{alarm.priority}}</div>
-          <div class="col col-1"><button (click)="deleteAlarm(alarm.id)">Delete</button></div>
-        </li>
-      </ul>     
-      <button type="submit" class="btn" (click)="addAlarm()">Add alarm</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+  <div *ngIf="openCreateAO" class="overlay">
+    <div class="form-popup">
+      <div class="form-container">
+        <label for="name"><b>Name</b></label>
+        <input type="text" id="nameCO" name="nameC">
+        <label for="description"><b>Description</b></label>
+        <input type="text" id="descriptionCO" name="descriptionC">
+        <label for="ioAddress"><b><br>IO Address<br></b></label>
+        <select [(ngModel)]="selectedAOAddress" name="type" class="kaka">
+          <option value="SIN">Simulation - SINUS</option>
+          <option value="COS">Simulation - COSINUS</option>
+          <option value="RAMP">Simulation - RAMP</option>
+          <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+        </select>
+        <label for="value"><b><br>Initial Value</b></label>
+        <input type="number" id="valueCO" name="valueC">
+        <label for="unit"><b>Unit</b></label>
+        <input type="text" id="unitCO" name="unitC">
+        <label for="lowLimit"><b>Low Limit</b></label>
+        <input type="number" id="lowLimitCO" name="lowLimitC">
+        <label for="highLimit"><b>High Limit</b></label>
+        <input type="number" id="highLimitCO" name="highLimitC">
+        <button type="submit" class="btn" (click)="sendCreateAO()">Save</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
     </div>
   </div>
-  <div class="form-popup" *ngIf="openAddAlarm">
-    <div class="form-container"> 
-      <label for="value"><b>Value</b></label>
-      <input type="number" id="valueA" name="valueA">
-      
-      <label for="description"><b>Type</b></label>
-      <select [(ngModel)]="selectedType" name="type">
-        <option value="LOWER">LOWER</option>
-        <option value="HIGHER">HIGHER</option>
-      </select>
-      
-      <label for="ioAddress"><b>Priority</b></label>
-      <select [(ngModel)]="selectedPriority" name="priority">
-        <option value="LOW">LOW</option>
-        <option value="MEDIUM">MEDIUM</option>
-        <option value="HIGH">HIGH</option>
-      </select>          
-        
-      <button type="submit" class="btn" (click)="sendAlarm()">Save</button>
-      <button type="button" class="btn cancel" (click)="close()">Close</button>          
+  <div class="overlay" *ngIf="openCreateDO">
+    <div class="form-popup" *ngIf="openCreateDO">
+      <div class="form-container">
+        <label for="name"><b>Name</b></label>
+        <input type="text" id="nameDO" name="nameD">
+        <label for="description"><b>Description</b></label>
+        <input type="text" id="descriptionDO" name="descriptionD">
+        <label for="ioAddress"><b><br>IO Address<br></b></label>
+        <select [(ngModel)]="selectedDOAddress" class="kaka" name="type">
+          <option value="SIN">Simulation - SINUS</option>
+          <option value="COS">Simulation - COSINUS</option>
+          <option value="RAMP">Simulation - RAMP</option>
+          <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+        </select>
+        <label for="value"><b><br>Value</b></label>
+        <input type="number" id="valueDO" name="valueD">
+        <button type="submit" class="btn" (click)="sendCreateDO()">Save</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" *ngIf="openAlarms">
+    <div class="form-popup">
+      <div class="form-container">
+        <ul class="responsive-table">
+          <li class="table-header">
+            <div class="col col-1">Value</div>
+            <div class="col col-4">Type</div>
+            <div class="col col-4">Priority</div>
+            <div class="col col-1">Delete</div>
+          </li>
+          <li *ngFor="let alarm of allAlarms" class="table-row">
+            <div class="col col-1">{{alarm.value}}</div>
+            <div class="col col-4">{{alarm.type}}</div>
+            <div class="col col-4">{{alarm.priority}}</div>
+            <div class="col col-1"><button (click)="deleteAlarm(alarm.id)">Delete</button></div>
+          </li>
+        </ul>
+        <button type="submit" class="btn" (click)="addAlarm()">Add alarm</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="openAddAlarm" class="overlay">
+    <div class="form-popup" *ngIf="openAddAlarm">
+      <div class="form-container">
+        <label for="value"><b><br>Value<br></b></label>
+        <input type="number" id="valueA" name="valueA">
+
+        <label for="description"><b><br>Type<br></b></label>
+        <select [(ngModel)]="selectedType" name="type">
+          <option value="LOWER">LOWER</option>
+          <option value="HIGHER">HIGHER</option>
+        </select>
+
+        <label for="ioAddress"><b><br>Priority<br></b></label>
+        <select [(ngModel)]="selectedPriority" name="priority">
+          <option value="LOW">LOW</option>
+          <option value="MEDIUM">MEDIUM</option>
+          <option value="HIGH">HIGH</option>
+        </select>
+
+        <button type="submit" class="btn" (click)="sendAlarm()">Save</button>
+        <button type="button" class="btn cancel" (click)="close()">Close</button>
+      </div>
     </div>
   </div>
 

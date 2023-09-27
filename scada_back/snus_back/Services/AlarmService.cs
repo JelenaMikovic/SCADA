@@ -74,7 +74,7 @@ namespace scada_back.Services
             {
                 Alarm alarm = alarmRepository.GetByAlarmId(record.AlarmId);
                 if (alarm.Priority == priority)
-                { alarmRecordsDTO.Add(new AlarmRecordDTO { Priority = priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
+                { alarmRecordsDTO.Add(new AlarmRecordDTO { AlarmId = record.AlarmId ,Priority = priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
             }
 
             return alarmRecordsDTO;
@@ -88,7 +88,7 @@ namespace scada_back.Services
             {
                 if (record.Timestamp <= endTime && record.Timestamp >= startTime)
                 { Alarm alarm = alarmRepository.GetByAlarmId(record.AlarmId); 
-                  alarmRecordsDTO.Add(new AlarmRecordDTO { Priority = alarm.Priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
+                  alarmRecordsDTO.Add(new AlarmRecordDTO { AlarmId = record.AlarmId, Priority = alarm.Priority, TimeStamp = record.Timestamp, TagId = alarm.TagId, Type = alarm.Type, Value = alarm.Value }); }
             }
 
             return alarmRecordsDTO;

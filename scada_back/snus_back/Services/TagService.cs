@@ -128,30 +128,58 @@ namespace scada_back.Services
 
         public ICollection<TagRecordDTO> GetLatestAI()
         {
-            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            Dictionary<int, TagRecordDTO> latestRecords = new Dictionary<int, TagRecordDTO>();
+
             foreach (Tag tag in this.tagRepository.GetAllTags())
             {
-                if(tag.TagType == TagType.AI)
+                if (tag.TagType == TagType.AI)
                 {
                     TagRecord record = this.tagRepository.GetRecordByTagID(tag.Id);
-                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+
+                    if (record == null) continue;
+
+                    if (!latestRecords.ContainsKey(tag.Id) || record.Timestamp > latestRecords[tag.Id].Timestamp)
+                    {
+                        latestRecords[tag.Id] = new TagRecordDTO
+                        {
+                            TagId = record.TagId,
+                            Value = record.Value,
+                            Timestamp = record.Timestamp,
+                            HighLimit = record.HighLimit,
+                            LowLimit = record.LowLimit
+                        };
+                    }
                 }
             }
-            return tagRecordDTOs;
+            return latestRecords.Values.ToList();
         }
 
         public ICollection<TagRecordDTO> GetLatestDI()
         {
-            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            Dictionary<int, TagRecordDTO> latestRecords = new Dictionary<int, TagRecordDTO>();
+
             foreach (Tag tag in this.tagRepository.GetAllTags())
             {
                 if (tag.TagType == TagType.DI)
                 {
                     TagRecord record = this.tagRepository.GetRecordByTagID(tag.Id);
-                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+
+                    if (record == null) continue;
+
+                    if (!latestRecords.ContainsKey(tag.Id) || record.Timestamp > latestRecords[tag.Id].Timestamp)
+                    {
+                        latestRecords[tag.Id] = new TagRecordDTO
+                        {
+                            TagId = record.TagId,
+                            Value = record.Value,
+                            Timestamp = record.Timestamp,
+                            HighLimit = record.HighLimit,
+                            LowLimit = record.LowLimit
+                        };
+                    }
                 }
             }
-            return tagRecordDTOs;
+            return latestRecords.Values.ToList();
         }
     }
 }

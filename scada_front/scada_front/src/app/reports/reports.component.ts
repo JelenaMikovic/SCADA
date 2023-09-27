@@ -33,6 +33,7 @@ export class ReportsComponent implements OnInit{
     this.alarmService.getAlarmTimeReport(from,to).subscribe({
       next:(result)=>{
         this.alarmRecords = result as AlarmRecordDTO[];
+        console.log(this.alarmRecords)
       }
     })
   }
@@ -147,6 +148,7 @@ export class ReportsComponent implements OnInit{
     this.deviceService.getAllDevices().subscribe({
       next:(result)=>{
         this.allOutputDevices = result as DeviceDTO[];
+        console.log(result)
       }
     })
   }
