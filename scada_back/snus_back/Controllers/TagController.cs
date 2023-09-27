@@ -101,6 +101,52 @@ namespace scada_back.Controllers
                 return BadRequest(new { Message = e.Message });
             }
         }
+
+        [HttpPost]
+        [Route("dates")]
+        public ActionResult GetAllTagsBetweenDates(DateRangeDTO dto)
+        {
+            try
+            {
+                ICollection<TagRecordDTO> ret = this.tagService.GetAllTagsBetweenDates(dto.StartTime, dto.EndTime);
+                return Ok(ret);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("latestAI")]
+        public ActionResult GetLatestAi()
+        {
+            try
+            {
+                ICollection<TagRecordDTO> ret = this.tagService.GetLatestAI();
+                return Ok(ret);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("latestDI")]
+        public ActionResult GetLatestDi()
+        {
+            try
+            {
+                ICollection<TagRecordDTO> ret = this.tagService.GetLatestDI();
+                return Ok(ret);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = e.Message });
+            }
+        }
+
     }
 }
 

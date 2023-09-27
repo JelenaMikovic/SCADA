@@ -3,6 +3,7 @@ using scada_back.Models;
 using scada_back.Repositories;
 using scada_back.Services.IServices;
 using System;
+using System.Net;
 
 namespace scada_back.Services
 {
@@ -106,6 +107,47 @@ namespace scada_back.Services
             {
                 if(tagRepository.GetTagById(record.TagId).IOAddress == address)
                 {
+                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+                }
+            }
+            return tagRecordDTOs;
+        }
+
+        public ICollection<TagRecordDTO> GetAllTagsBetweenDates(DateTime startTime, DateTime endTime)
+        {
+            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            foreach (TagRecord record in this.tagRepository.GetAllRecords())
+            {
+                if (record.Timestamp >= startTime && record.Timestamp <= endTime)
+                {
+                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+                }
+            }
+            return tagRecordDTOs;
+        }
+
+        public ICollection<TagRecordDTO> GetLatestAI()
+        {
+            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            foreach (Tag tag in this.tagRepository.GetAllTags())
+            {
+                if(tag.TagType == TagType.AI)
+                {
+                    TagRecord record = this.tagRepository.GetRecordByTagID(tag.Id);
+                    tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
+                }
+            }
+            return tagRecordDTOs;
+        }
+
+        public ICollection<TagRecordDTO> GetLatestDI()
+        {
+            ICollection<TagRecordDTO> tagRecordDTOs = new List<TagRecordDTO>();
+            foreach (Tag tag in this.tagRepository.GetAllTags())
+            {
+                if (tag.TagType == TagType.DI)
+                {
+                    TagRecord record = this.tagRepository.GetRecordByTagID(tag.Id);
                     tagRecordDTOs.Add(new TagRecordDTO { TagId = record.TagId, Value = record.Value, Timestamp = record.Timestamp, HighLimit = record.HighLimit, LowLimit = record.LowLimit });
                 }
             }
