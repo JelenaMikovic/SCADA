@@ -18,6 +18,10 @@ export class DeviceService {
     return this.http.get<any>(`${this.baseUrl}/output`);
   }
 
+  getAllDevices(): Observable<DeviceDTO[]> {
+    return this.http.get<any>(`${this.baseUrl}`);
+  }
+
 }
 
 export interface DeviceDTO {

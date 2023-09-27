@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AlarmRecordDTO, AlarmService} from "../services/alarm.service";
 import {TagRecordDTO} from "../services/web-socket.service";
 import {TagService} from "../services/tag.service";
+import {DeviceDTO, DeviceService} from "../services/device.service";
 
 @Component({
   selector: 'app-reports',
@@ -19,8 +20,10 @@ export class ReportsComponent implements OnInit{
 
   alarmRecords:AlarmRecordDTO[]=[];
   tagRecords:TagRecordDTO[]=[];
+  selectedIOAddress!:string;
+  allOutputDevices:DeviceDTO[]=[];
 
-  constructor(private alarmService:AlarmService, private tagService:TagService) {
+  constructor(private alarmService:AlarmService, private tagService:TagService, private deviceService:DeviceService) {
   }
 
 
@@ -70,12 +73,13 @@ export class ReportsComponent implements OnInit{
     })
   }
 
-  getspecTagReportData(){
-
+  getSpecTagReportData(){
+    this.tagService.getRecordsIO(this.selectedIOAddress).subscribe({
+      next:(result)=>{
+        this.tagRecords = result as TagRecordDTO[];
+      }
+    })
   }
-
-
-
 
 
   timePeriodReportSeleceted(){
@@ -112,6 +116,11 @@ export class ReportsComponent implements OnInit{
     this.aiReports = true;
     this.diReports = false;
     this.specTagReport = false;
+    this.tagService.getAllAIRecords().subscribe({
+      next:(result)=>{
+        this.tagRecords = result as TagRecordDTO[];
+      }
+    })
   }
 
   diReportsSelected(){
@@ -121,6 +130,11 @@ export class ReportsComponent implements OnInit{
     this.aiReports = false;
     this.diReports = true;
     this.specTagReport = false;
+    this.tagService.getAllDIRecords().subscribe({
+      next:(result)=>{
+        this.tagRecords = result as TagRecordDTO[];
+      }
+    })
   }
 
   specTagReportSelected(){
@@ -130,6 +144,11 @@ export class ReportsComponent implements OnInit{
     this.aiReports = false;
     this.diReports = false;
     this.specTagReport = true;
+    this.deviceService.getAllDevices().subscribe({
+      next:(result)=>{
+        this.allOutputDevices = result as DeviceDTO[];
+      }
+    })
   }
   ngOnInit() {
   }

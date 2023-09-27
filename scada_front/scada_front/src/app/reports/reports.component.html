@@ -34,7 +34,7 @@
   <div class="container" *ngIf="priorityReport">
     <div>
       <label><b>Priority</b></label>
-      <select [(ngModel)]="selectedPriority" name="priority">
+      <select [(ngModel)]="selectedPriority" name="priority" (click)="getPriorityReportData()">
         <option value="LOW">LOW</option>
         <option value="MEDIUM">MEDIUM</option>
         <option value="HIGH">HIGH</option>
@@ -60,30 +60,20 @@
     <div>
       <input type="text" id="fromTag" placeholder="FROM:">
       <input type="text" id="toTag" placeholder="TO:"><br><br>
-      <button>Get data</button>
+      <button (click)="getTagRecordsTimeReportData()">Get data</button>
     </div>
     <ul class="responsive-table">
       <li class="table-header">
-        <div class="col col-1">Id</div>
-        <div class="col col-4">Name</div>
-        <div class="col col-4">Description</div>
-        <div class="col col-4">IOAddress</div>
         <div class="col col-4">Value</div>
-        <div class="col col-4">Unit</div>
         <div class="col col-4">Low limit</div>
         <div class="col col-4">High Limit</div>
-        <div class="col col-4">Scan time</div>
+        <div class="col col-4">Time stamp</div>
       </li>
       <li class="table-row" *ngFor="let tag of tagRecords">
-        <div class="col col-1">{{tag.tagId}}</div>
         <div class="col col-4">{{tag.value}}</div>
         <div class="col col-4">{{tag.lowLimit}}</div>
         <div class="col col-4">{{tag.highLimit}}</div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
+        <div class="col col-4">{{tag.timestamp}}</div>
       </li>
     </ul>
   </div>
@@ -92,26 +82,16 @@
   <div class="container" *ngIf="aiReports">
     <ul class="responsive-table">
       <li class="table-header">
-        <div class="col col-1">Id</div>
-        <div class="col col-4">Name</div>
-        <div class="col col-4">Description</div>
-        <div class="col col-4">IOAddress</div>
         <div class="col col-4">Value</div>
-        <div class="col col-4">Unit</div>
         <div class="col col-4">Low limit</div>
         <div class="col col-4">High Limit</div>
-        <div class="col col-4">Scan time</div>
+        <div class="col col-4">Time stamp</div>
       </li>
       <li class="table-row" *ngFor="let tag of tagRecords">
-        <div class="col col-1"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
       </li>
     </ul>
   </div>
@@ -121,26 +101,16 @@
   <div class="container" *ngIf="diReports">
     <ul class="responsive-table">
       <li class="table-header">
-        <div class="col col-1">Id</div>
-        <div class="col col-4">Name</div>
-        <div class="col col-4">Description</div>
-        <div class="col col-4">IOAddress</div>
         <div class="col col-4">Value</div>
-        <div class="col col-4">Unit</div>
         <div class="col col-4">Low limit</div>
         <div class="col col-4">High Limit</div>
-        <div class="col col-4">Scan time</div>
+        <div class="col col-4">Time stamp</div>
       </li>
       <li class="table-row" *ngFor="let tag of tagRecords">
-        <div class="col col-1"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
       </li>
     </ul>
   </div>
@@ -155,26 +125,16 @@
     </div>
     <ul class="responsive-table">
       <li class="table-header">
-        <div class="col col-1">Id</div>
-        <div class="col col-4">Name</div>
-        <div class="col col-4">Description</div>
-        <div class="col col-4">IOAddress</div>
         <div class="col col-4">Value</div>
-        <div class="col col-4">Unit</div>
         <div class="col col-4">Low limit</div>
         <div class="col col-4">High Limit</div>
-        <div class="col col-4">Scan time</div>
+        <div class="col col-4">Time stamp</div>
       </li>
-      <li  class="table-row" *ngFor="let tag of tagRecords">
-        <div class="col col-1"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
-        <div class="col col-4"></div>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
       </li>
     </ul>
   </div>
