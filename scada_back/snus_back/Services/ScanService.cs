@@ -21,10 +21,10 @@ namespace scada_back.Services
         private readonly TagHandler tagHandler;
         private readonly AlarmHandler alarmHandler;
 
-        private List<Alarm> alarms;
-        private List<Tag> tags;
-        private List<AlarmRecord> alarmRecords;
-        private List<TagRecord> tagRecords;
+        private static List<Alarm> alarms = new List<Alarm>();
+        private static List<Tag> tags = new List<Tag>();
+        private static List<AlarmRecord> alarmRecords = new List<AlarmRecord>();
+        private static List<TagRecord> tagRecords = new List<TagRecord>();
 
         public ScanService(TagRepository tagRepository, AlarmRepository alarmRepository, DeviceRepository deviceRepository, IHubContext<TagHub> tagHub, IHubContext<AlarmHub> alarmHub, TagHandler tagHandler)
         {
@@ -34,22 +34,18 @@ namespace scada_back.Services
             this.tagHub = tagHub;
             this.alarmHub = alarmHub;
             this.tagHandler = tagHandler;
-            this.alarms = new List<Alarm>();
-            this.alarmRecords = new List<AlarmRecord>();
-            this.tags = new List<Tag>();
-            this.tagRecords = new List<TagRecord>();
         }
 
         public void Run()
         {
             foreach (Alarm alarm in alarmRepository.GetAll())
             {
-                this.alarms.Add(alarm);
+                alarms.Add(alarm);
             }
             foreach (Tag tag in tagRepository.GetAllTags())
             {
                 if (tag.TagType.Equals(TagType.AO) || tag.TagType.Equals(TagType.DO)) continue;
-                this.tags.Add(tag);
+                tags.Add(tag);
             }
             foreach (Tag tag in tagRepository.GetAllTags())
             {
@@ -57,6 +53,8 @@ namespace scada_back.Services
                 Thread thread = new Thread(() => StartSimulationThread(tag));
                 thread.Start();
             }
+            Thread thr = new Thread(UpdateDatabase);
+            thr.Start();
         }
 
         public void UpdateDatabase()
@@ -65,11 +63,15 @@ namespace scada_back.Services
             {
                 lock (Utils._lock)
                 {
-                    tagRepository.UpdateAllTags(this.tags);
-                    tagRepository.InsertAllTagRecords(this.tagRecords);
+                    tagRepository.UpdateAllTags(tags);
+                    tagRepository.InsertAllTagRecords(tagRecords);
                     tagRecords.Clear();
-                    alarmRepository.InsertAllAlarmRecords(this.alarmRecords);
+                    alarmRepository.InsertAllAlarmRecords(alarmRecords);
                     alarmRecords.Clear();
+                    foreach (var tag in tags)
+                    {
+                        Console.WriteLine("Tag ID: " + tag.Id);
+                    }
                 }
                 Thread.Sleep(3000);
             }
@@ -79,7 +81,8 @@ namespace scada_back.Services
         {
             lock (Utils._lock)
             {
-                this.tags.Add(tag);
+                tags.Add(tag);
+                Console.WriteLine("Tag added with ID: " + tag.Id);
             }
             Thread thread = new Thread(() => StartSimulationThread(tag));
             thread.Start();
@@ -90,7 +93,7 @@ namespace scada_back.Services
         {
             lock (Utils._lock)
             {
-                this.alarms.Add(alarm);
+                alarms.Add(alarm);
             }
         }
 
@@ -98,7 +101,7 @@ namespace scada_back.Services
         {
             lock (Utils._lock)
             {
-                this.alarms.Remove(this.alarms.Find(a => a.Id == id));
+                alarms.Remove(alarms.Find(a => a.Id == id));
             }
         }
 
@@ -106,7 +109,16 @@ namespace scada_back.Services
         {
             lock (Utils._lock)
             {
-                this.tags.Find(t => t.Id == id).IsScanOn = !this.tags.Find(t => t.Id == id).IsScanOn;
+                var tag = tags.Find(t => t.Id == id);
+                if (tag != null)
+                {
+                    Console.WriteLine("Found tag with ID " + id);
+                    tag.IsScanOn = !tag.IsScanOn;
+                }
+                else
+                {
+                    Console.WriteLine("Tag with ID " + id + " not found.");
+                }
             }
         }
 
@@ -114,7 +126,7 @@ namespace scada_back.Services
         {
             lock (Utils._lock)
             {
-                this.tags.Remove(this.tags.Find(t => t.Id == id));
+                tags.Remove(tags.Find(t => t.Id == id));
             }
         }
 
@@ -133,7 +145,7 @@ namespace scada_back.Services
             {
                 lock (Utils._lock)
                 {
-                    tag = this.tags.Find(t => t.Id == tag.Id);
+                    tag = tags.Find(t => t.Id == tag.Id);
                 }
 
                 if (tag == null)
@@ -158,7 +170,7 @@ namespace scada_back.Services
                     List<Alarm> found;
                     lock (Utils._lock)
                     {
-                        found = this.alarms.FindAll(t => t.TagId == tag.Id);
+                        found = alarms.FindAll(t => t.TagId == tag.Id);
                     }
                     foreach (Alarm alarm in found)
                     {

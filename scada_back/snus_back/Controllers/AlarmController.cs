@@ -88,7 +88,7 @@ namespace scada_back.Controllers
         }
 
         [HttpGet]
-        [Route("{priority}")]
+        [Route("priority/{priority}")]
         public ActionResult GetAllAlarmsByPriority(string priority)
         {
             try

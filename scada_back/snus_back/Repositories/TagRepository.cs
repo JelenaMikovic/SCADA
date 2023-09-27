@@ -65,9 +65,9 @@ namespace scada_back.Repositories
         {
             foreach(Tag tag in tags)
             {
-                dbContext.Entry(tag).State = EntityState.Modified;
-                dbContext.SaveChanges();
+                dbContext.Entry(tag).State = EntityState.Modified;  
             }
+            dbContext.SaveChanges();
         }
 
         public void InsertAllTagRecords(List<TagRecord> tagRecords)
@@ -75,8 +75,8 @@ namespace scada_back.Repositories
             foreach(TagRecord record in tagRecords)
             {
                 this.dbContext.TagRecords.Add(record);
-                this.dbContext.SaveChanges();
             }
+            this.dbContext.SaveChanges();
         }
 
         public List<TagRecord> GetAllRecords()
