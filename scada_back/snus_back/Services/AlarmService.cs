@@ -9,11 +9,13 @@ namespace scada_back.Services
     public class AlarmService : IAlarmService
     {
         public AlarmRepository alarmRepository;
+        public ScanService scanService;
        
 
-        public AlarmService(AlarmRepository alarmRepository)
+        public AlarmService(AlarmRepository alarmRepository,ScanService scanService)
         {
             this.alarmRepository = alarmRepository;
+            this.scanService = scanService;
         }
 
 
@@ -32,6 +34,7 @@ namespace scada_back.Services
                 Type = (Type)Enum.Parse(typeof(Type), alarmDTO.Type)
             };
             alarmRepository.AddAlarm(alarm);
+            scanService.AddNewAlarm(alarm);
         }
 
         public void DeleteAlarm(int id)
@@ -39,10 +42,12 @@ namespace scada_back.Services
             try
             {
                 alarmRepository.DeleteAlarm(id);
+                scanService.RemoveAlarm(id);
             } catch
             {
                 throw new Exception();
             }
+
         }
 
         public List<AlarmDTO> GetTagsAlarms(int id) {

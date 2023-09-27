@@ -22,7 +22,7 @@ export class TrendingComponent implements OnInit{
   getAllTags() {
     this.tagService.getTags().subscribe({
       next: (result) => {
-        console.log(result);
+        //console.log(result);
         for (let tag of result){
           if (tag.tagType=="AI" || tag.tagType=="DI"){
             if (tag.isScanOn){
@@ -40,7 +40,7 @@ export class TrendingComponent implements OnInit{
   }
 
   updateTag(update:any){
-    console.log(update)
+    //console.log(update)
     for (let tag of this.allTags){
       if (tag.id == update.tagId){
         tag.value = update.value;
@@ -61,7 +61,7 @@ export class TrendingComponent implements OnInit{
       .then(() => console.log('Connection started'))
       .catch(() => console.log('Error while starting connection: '))
     this.tagUpdateConnection.on('tag', (from: string, body: string) => {
-      console.log(from, body);
+      //console.log(from, body);
       this.updateTag(from);
     });
   }
@@ -85,13 +85,8 @@ export class TrendingComponent implements OnInit{
   }
 
   handleAlarmUpdateWebSocket(alarmRecord: any){
-    console.log(alarmRecord);
-    for (let tag of this.allTags){
-      if (tag.id == alarmRecord.tagId){
-        //TODO handle alarm update from back
-        this.snackBar.open('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .",'Close',{duration:3000});
-      }
-    }
+    //console.log(alarmRecord);
+    this.snackBar.open('Alarm for tag with id:' + alarmRecord.tagId + ". Priority: " + alarmRecord.priority +". Value when tag alarm occured: " + alarmRecord.value + " .",'Close',{duration:3000});
   }
 
   ngOnInit(): void {

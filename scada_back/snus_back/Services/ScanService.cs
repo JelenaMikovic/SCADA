@@ -19,6 +19,7 @@ namespace scada_back.Services
         private readonly IHubContext<AlarmHub> alarmHub;
         private readonly IHubContext<TagHub> tagHub;
         private readonly TagHandler tagHandler;
+        private readonly AlarmHandler alarmHandler;
 
         private List<Alarm> alarms;
         private List<Tag> tags;
@@ -81,6 +82,17 @@ namespace scada_back.Services
             thread.Start();
         }
 
+
+        public void AddNewAlarm(Alarm alarm)
+        {
+            this.alarms.Add(alarm);
+        }
+
+        public void RemoveAlarm(int id)
+        {
+            this.alarms.Remove(this.alarms.Find(a => a.Id == id)); ;
+        }
+
         public void ToggleScan(int id)
         {
             this.tags.Find(t => t.Id == id).IsScanOn = !this.tags.Find(t => t.Id == id).IsScanOn;
@@ -101,12 +113,10 @@ namespace scada_back.Services
             Tag tag = (Tag)obj;
             double currentValue = -1000;
             Alarm currentAlarm;
-            List<Alarm> alarms = new();
 
             while (true)
             {
                 tag = this.tags.Find(t => t.Id == tag.Id);
-                alarms = this.alarms.FindAll(t => t.TagId == tag.Id);
                 
                 if (tag == null)
                 {
@@ -128,8 +138,9 @@ namespace scada_back.Services
                     }
                     currentAlarm = null;
 
-                    foreach (Alarm alarm in alarms)
+                    foreach (Alarm alarm in this.alarms.FindAll(t => t.TagId == tag.Id))
                     {
+                        Console.WriteLine(alarm);
                         if ((alarm.Type == Type.HIGHER && currentValue >= alarm.Value) || (alarm.Type == Type.LOWER && currentValue <= alarm.Value))
                         {
                             if (currentAlarm == null || (currentAlarm != null && currentAlarm.Priority < alarm.Priority))
@@ -137,6 +148,7 @@ namespace scada_back.Services
                                 currentAlarm = alarm;
                             }
                         }
+                        Console.WriteLine("PROSO");
                     }
 
                     lock (Utils._lock)
@@ -154,7 +166,9 @@ namespace scada_back.Services
 
                         lock (Utils._lock)
                         {
-                            alarmHub.Clients.All.SendAsync("alarm", new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value });
+                            AlarmRecordDTO notify = new AlarmRecordDTO { TagId = tag.Id, Priority = currentAlarm.Priority, Type = currentAlarm.Type, Value = currentAlarm.Value };
+                            alarmHub.Clients.All.SendAsync("alarm", notify);
+                            alarmHandler.SendDataToClient("alarm", notify);
                             alarmRecords.Add(alarmRecord);
                         }
                     }
