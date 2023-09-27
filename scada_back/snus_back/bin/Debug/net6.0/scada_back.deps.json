@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.AspNetCore.Cors": "2.2.0",
           "Microsoft.EntityFrameworkCore": "7.0.11",
+          "Microsoft.EntityFrameworkCore.Analyzers": "7.0.11",
           "Microsoft.EntityFrameworkCore.InMemory": "7.0.11",
           "Microsoft.EntityFrameworkCore.Proxies": "7.0.11",
           "Microsoft.EntityFrameworkCore.Sqlite": "7.0.11",

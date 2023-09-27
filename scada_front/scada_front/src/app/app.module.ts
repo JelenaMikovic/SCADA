@@ -14,6 +14,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import { TrendingComponent } from './trending/trending.component';
 import { AlarmDisplayComponent } from './alarm-display/alarm-display.component';
+import { ReportsComponent } from './reports/reports.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AlarmDisplayComponent } from './alarm-display/alarm-display.component';
     NavbarComponent,
     DbManagerComponent,
     TrendingComponent,
-    AlarmDisplayComponent
+    AlarmDisplayComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserModule,

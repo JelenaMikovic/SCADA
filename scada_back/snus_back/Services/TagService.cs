@@ -111,5 +111,40 @@ namespace scada_back.Services
             }
             return tagRecordDTOs;
         }
+
+        List<TagDTO> ITagService.getAllTags()
+        {
+            throw new NotImplementedException();
+        }
+
+        ICollection<TagDTO> ITagService.getAllTagsByIOAddress(string adress)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITagService.CreateTag(CreateTagDTO createTagDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITagService.DeleteTag(int tagId)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITagService.UpdateTag(UpdateTagDTO updateTagDTO)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ITagService.ToggleIsScanOn(int tagId)
+        {
+            throw new NotImplementedException();
+        }
+
+        ICollection<TagRecordDTO> ITagService.GetAllRecordsByIOAddress(string address)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

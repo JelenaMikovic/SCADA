@@ -6,4 +6,3 @@
         public DateTime EndTime { get; set; }
     }
 }
-z

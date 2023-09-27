@@ -4,7 +4,7 @@
         <li><a id="loginButton" routerLinkActive="active" [routerLink]="['/login']" *ngIf="!isAuthenticated()">Log in</a></li>
         <li><a [routerLink]="['/registration']" *ngIf="!isAuthenticated()">Register</a></li>
         <li><a [routerLink]="['/db-manager']" *ngIf="hasUserRole('admin')">Database Manager</a></li>
-        <li><a [routerLink]="['/']" *ngIf="hasUserRole('admin')">Reports</a></li>
+        <li><a [routerLink]="['/reports']" *ngIf="hasUserRole('admin')">Reports</a></li>
         <li><a [routerLink]="['/trending']" *ngIf="isAuthenticated()">Trending</a></li>
         <li><a id="logoutButton" [routerLink]="" (click)="signOut()" *ngIf="isAuthenticated()">Log out</a></li>
       </ul>
