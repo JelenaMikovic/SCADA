@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
+import {TagRecordDTO} from "./web-socket.service";
+import {extractHostBindings} from "@angular/compiler-cli/src/ngtsc/annotations/directive";
 
 
 @Injectable({
@@ -31,6 +33,21 @@ export class TagService {
     return this.http.post<any>(`${this.baseUrl}`, dto);
   }
 
+  getTagRecordsTimeInterval(date1:Date,date2:Date):Observable<TagRecordDTO[]>{
+    return this.http.post<any>(`${this.baseUrl}/dates`,{startTime:date1,endTime:date2});
+  }
+
+  getAllAIRecords():Observable<TagRecordDTO[]>{
+    return this.http.get<any>(`${this.baseUrl}/latestAI`)
+  }
+
+  getAllDIRecords():Observable<TagRecordDTO[]>{
+    return this.http.get<any>(`${this.baseUrl}/latestDI`)
+  }
+
+  getRecordsIO(adress:string):Observable<TagRecordDTO[]>{
+    return this.http.get<any>(`${this.baseUrl}/`+adress);
+  }
 }
 
 

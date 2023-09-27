@@ -28,6 +28,14 @@ export class AlarmService {
   }
 
 
+  getAlarmTimeReport(date1:Date,date2:Date):Observable<AlarmRecordDTO[]>{
+    return this.http.post<any>(`${this.baseUrl}/dates`,{startTime:date1,endTime:date2});
+  }
+
+  getAlarmPriorityReport(priority:string):Observable<AlarmRecordDTO[]>{
+    return this.http.get<any>(`${this.baseUrl}/priority/` + priority);
+  }
+
 }
 
 export interface AlarmDTO {

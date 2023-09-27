@@ -1,0 +1,182 @@
+<p>reports works!</p>
+<div id="buttons">
+  <button (click)="timePeriodReportSeleceted()">All alarms spec time</button>
+  <button (click)="priorityReportSeleceted()">All alarms spec priority</button>
+  <button (click)="tagRecordsTimeReportSelected()">All tag values spec time</button>
+  <button (click)="aiReportsSelected()">All AI tag values</button>
+  <button (click)="diReportsSelected()">All DI tag values</button>
+  <button (click)="specTagReportSelected()">All values spec tag</button>
+</div>
+<div id="tables">
+
+<!--  ALARMI ODREDJENI VR PERIOD-->
+  <div class="container" *ngIf="timePeriodReport">
+    <div>
+      <input type="date" id="from" placeholder="FROM:">
+      <input type="date" id="to" placeholder="TO:"><br><br>
+      <button (click)="getTimePeriodReportData()">Get data</button>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">AlarmId</div>
+        <div class="col col-4">TagId</div>
+        <div class="col col-4">Date</div>
+      </li>
+      <li  class="table-row" *ngFor="let alarm of alarmRecords">
+        <div class="col col-4">{{alarm.alarmId}}</div>
+        <div class="col col-4">{{alarm.tagId}}</div>
+        <div class="col col-4">{{alarm.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+<!--  ALARMI ODREDJENI PRIORITET-->
+  <div class="container" *ngIf="priorityReport">
+    <div>
+      <label><b>Priority</b></label>
+      <select [(ngModel)]="selectedPriority" name="priority">
+        <option value="LOW">LOW</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="HIGH">HIGH</option>
+      </select>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">AlarmId</div>
+        <div class="col col-4">TagId</div>
+        <div class="col col-4">Date</div>
+      </li>
+      <li  class="table-row" *ngFor="let alarm of alarmRecords">
+        <div class="col col-4">{{alarm.alarmId}}</div>
+        <div class="col col-4">{{alarm.tagId}}</div>
+        <div class="col col-4">{{alarm.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!--  TAG RECORDS-->
+  <div class="container" *ngIf="tagRecordsTimeReport">
+    <div>
+      <input type="text" id="fromTag" placeholder="FROM:">
+      <input type="text" id="toTag" placeholder="TO:"><br><br>
+      <button>Get data</button>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">Id</div>
+        <div class="col col-4">Name</div>
+        <div class="col col-4">Description</div>
+        <div class="col col-4">IOAddress</div>
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Unit</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Scan time</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-1">{{tag.tagId}}</div>
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+      </li>
+    </ul>
+  </div>
+
+<!--  AI TAGOVI-->
+  <div class="container" *ngIf="aiReports">
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">Id</div>
+        <div class="col col-4">Name</div>
+        <div class="col col-4">Description</div>
+        <div class="col col-4">IOAddress</div>
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Unit</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Scan time</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-1"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+      </li>
+    </ul>
+  </div>
+
+
+<!--  DI TAGOVI-->
+  <div class="container" *ngIf="diReports">
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">Id</div>
+        <div class="col col-4">Name</div>
+        <div class="col col-4">Description</div>
+        <div class="col col-4">IOAddress</div>
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Unit</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Scan time</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-1"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+      </li>
+    </ul>
+  </div>
+
+
+<!--  SVE VREDNOSTI JEDNOG TAGA-->
+  <div class="container" *ngIf="specTagReport">
+    <div>
+      <select [(ngModel)]="selectedIOAddress" name="type">
+        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-1">Id</div>
+        <div class="col col-4">Name</div>
+        <div class="col col-4">Description</div>
+        <div class="col col-4">IOAddress</div>
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Unit</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Scan time</div>
+      </li>
+      <li  class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-1"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+        <div class="col col-4"></div>
+      </li>
+    </ul>
+  </div>
+
+</div>
