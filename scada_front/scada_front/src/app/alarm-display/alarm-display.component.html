@@ -1,0 +1,16 @@
+<div class="container">
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-4">AlarmId</div>
+      <div class="col col-4">TagId</div>
+      <div class="col col-4">Date</div>
+    </li>
+    <li *ngFor="let alarm of allAlarms" class="table-row">
+      <div class="col col-4">{{alarm.alarmId}}</div>
+      <div class="col col-4">{{alarm.tagId}}</div>
+      <div class="col col-4">{{alarm.timeStamp}}</div>
+    </li>
+  </ul>
+
+
+</div>

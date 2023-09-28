@@ -1,0 +1,27 @@
+﻿<Properties StartupConfiguration="{CB85F412-9EDF-41C7-A2C6-0867ABE2BE52}|Default">
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.RTU__Client PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="RTU_Client/Program.cs">
+    <Files>
+      <File FileName="RTU_Client/DeviceDTO.cs" Line="1" Column="1" />
+      <File FileName="RTU_Client/Device.cs" Line="5" Column="27" />
+      <File FileName="RTU_Client/Program.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="RTU_Client">
+            <Node name="RTU_Client" expanded="True">
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+</Properties>

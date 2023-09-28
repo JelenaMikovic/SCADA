@@ -1,0 +1,145 @@
+<div id="buttons" class="button-container">
+  <br><br>
+  <button class="btn" (click)="timePeriodReportSeleceted()">All alarms spec time</button>
+  <button class="btn" (click)="priorityReportSeleceted()">All alarms spec priority</button>
+  <button class="btn" (click)="tagRecordsTimeReportSelected()">All tag values spec time</button>
+  <button class="btn" (click)="aiReportsSelected()">All AI tag values</button>
+  <button class="btn" (click)="diReportsSelected()">All DI tag values</button>
+  <button class="btn" (click)="specTagReportSelected()">All values spec tag</button>
+</div>
+<div id="tables">
+
+<!--  ALARMI ODREDJENI VR PERIOD-->
+  <div class="container" *ngIf="timePeriodReport">
+    <div>
+      <input type="date" class="kaka" id="from" placeholder="FROM:">
+      <input type="date" class="kaka" id="to" placeholder="TO:"><br><br>
+      <button (click)="getTimePeriodReportData()" class="btn" >Get data<br></button>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">AlarmId</div>
+        <div class="col col-4">TagId</div>
+        <div class="col col-4">Date</div>
+      </li>
+      <li  class="table-row" *ngFor="let alarm of alarmRecords">
+        <div class="col col-4">{{alarm.alarmId}}</div>
+        <div class="col col-4">{{alarm.tagId}}</div>
+        <div class="col col-4">{{alarm.timeStamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+<!--  ALARMI ODREDJENI PRIORITET-->
+  <div class="container" *ngIf="priorityReport">
+    <div>
+      <label><b>Priority</b></label>
+      <select [(ngModel)]="selectedPriority"  class="kaka" name="priority" (click)="getPriorityReportData()">
+        <option value="LOW">LOW</option>
+        <option value="MEDIUM">MEDIUM</option>
+        <option value="HIGH">HIGH</option>
+      </select>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">AlarmId</div>
+        <div class="col col-4">TagId</div>
+        <div class="col col-4">Date</div>
+      </li>
+      <li  class="table-row" *ngFor="let alarm of alarmRecords">
+        <div class="col col-4">{{alarm.alarmId}}</div>
+        <div class="col col-4">{{alarm.tagId}}</div>
+        <div class="col col-4">{{alarm.timeStamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+
+  <!--  TAG RECORDS-->
+  <div class="container" *ngIf="tagRecordsTimeReport">
+    <div>
+      <input type="date" class="kaka" id="fromTag" placeholder="FROM:">
+      <input type="date" class="kaka" id="toTag" placeholder="TO:"><br><br>
+      <button (click)="getTagRecordsTimeReportData()" class="btn" >Get data<br></button>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Time stamp</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+<!--  AI TAGOVI-->
+  <div class="container" *ngIf="aiReports">
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Time stamp</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+
+<!--  DI TAGOVI-->
+  <div class="container" *ngIf="diReports">
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Time stamp</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+
+<!--  SVE VREDNOSTI JEDNOG TAGA-->
+  <div class="container" *ngIf="specTagReport">
+    <div>
+      <select [(ngModel)]="selectedIOAddress" name="type"  class="kaka" (click)="getSpecTagReportData()">
+        <option value="SIN">Simulation - SINUS</option>
+        <option value="COS">Simulation - COSINUS</option>
+        <option value="RAMP">Simulation - RAMP</option>
+        <option *ngFor="let address of allOutputDevices" [value]="address.ioAddress">{{address.ioAddress}}</option>
+      </select>
+    </div>
+    <ul class="responsive-table">
+      <li class="table-header">
+        <div class="col col-4">Value</div>
+        <div class="col col-4">Low limit</div>
+        <div class="col col-4">High Limit</div>
+        <div class="col col-4">Time stamp</div>
+      </li>
+      <li class="table-row" *ngFor="let tag of tagRecords">
+        <div class="col col-4">{{tag.value}}</div>
+        <div class="col col-4">{{tag.lowLimit}}</div>
+        <div class="col col-4">{{tag.highLimit}}</div>
+        <div class="col col-4">{{tag.timestamp}}</div>
+      </li>
+    </ul>
+  </div>
+
+</div>
