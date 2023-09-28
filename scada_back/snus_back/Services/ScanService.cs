@@ -130,9 +130,22 @@ namespace scada_back.Services
             }
         }
 
-        public void EditTag(Tag tag)
+        public void EditTag(UpdateTagDTO createTagDTO)
         {
-            //tags.Find(t => t.Id == tag.Id) = tag;
+            lock (Utils._lock)
+            {
+                Tag tag = tags.Find(t => t.Id == createTagDTO.Id);
+                tag.Name = createTagDTO.Name;
+                tag.Description = createTagDTO.Description;
+                tag.IOAddress = createTagDTO.IOAddress;
+                tag.Value = createTagDTO.Value;
+                tag.ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null;
+                tag.IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null;
+                tag.LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null;
+                tag.HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null;
+                tag.Unit = createTagDTO.Unit;
+            }
+
         }
 
         private void StartSimulationThread(object obj)
@@ -158,6 +171,7 @@ namespace scada_back.Services
                     if (tag.IOAddress == "SIN" || tag.IOAddress == "COS" || tag.IOAddress == "RAMP")
                     {
                         currentValue = SimulationService.CalculateValue(tag.IOAddress);
+                        if (tag.TagType.Equals(TagType.DI)) currentValue = (currentValue % 2)*(currentValue % 2);
                     }
                     else
                     {

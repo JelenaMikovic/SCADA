@@ -119,7 +119,7 @@
 <!--  SVE VREDNOSTI JEDNOG TAGA-->
   <div class="container" *ngIf="specTagReport">
     <div>
-      <select [(ngModel)]="selectedIOAddress" name="type"  class="kaka">
+      <select [(ngModel)]="selectedIOAddress" name="type"  class="kaka" (click)="getSpecTagReportData()">
         <option value="SIN">Simulation - SINUS</option>
         <option value="COS">Simulation - COSINUS</option>
         <option value="RAMP">Simulation - RAMP</option>

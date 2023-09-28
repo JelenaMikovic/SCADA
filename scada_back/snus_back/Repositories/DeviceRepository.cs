@@ -27,12 +27,19 @@ namespace scada_back.Repositories
             return dbContext.Devices.FirstOrDefault(t => t.IOAddress == iOAddress);
         }
 
-        public void UpdateValue(DeviceDTO deviceDTO)
+        public void UpdateValue(List<DeviceDTO> deviceDTOs)
         {
-            Device device = GetByIOAddress(deviceDTO.IOAddress);
-            device.Value = deviceDTO.Value;
-            devices[device.IOAddress] = deviceDTO.Value;
-            dbContext.Entry(device).State = EntityState.Modified;
+          
+            foreach (DeviceDTO deviceDTO in deviceDTOs)
+            {
+                if (GetByIOAddress(deviceDTO.IOAddress) != null)
+                {
+                    Device device = GetByIOAddress(deviceDTO.IOAddress);
+                    device.Value = deviceDTO.Value;
+                    devices[device.IOAddress] = deviceDTO.Value;
+                    dbContext.Entry(device).State = EntityState.Modified;
+                }
+            }
             dbContext.SaveChanges();
         }
 

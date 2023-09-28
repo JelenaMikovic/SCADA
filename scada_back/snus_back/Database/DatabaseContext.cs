@@ -12,19 +12,7 @@ namespace scada_back.Database
         public DbSet<AlarmRecord> AlarmRecords { get; set; }
         public DbSet<TagRecord> TagRecords { get; set; }
 
-        //public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
-
-        protected readonly IConfiguration Configuration;
-
-        public DatabaseContext(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseSqlite("Data Source = scada.db");
-        }
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

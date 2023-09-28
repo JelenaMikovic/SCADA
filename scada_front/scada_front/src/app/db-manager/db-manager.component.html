@@ -30,8 +30,8 @@
       <div class="col col-4">{{tag.unit}}</div>
       <div class="col col-4">{{tag.lowLimit}}</div>
       <div class="col col-4">{{tag.highLimit}}</div>
-      <div class="col col-4">
-        <div class="button r" id="button-1" (click)="toggle(tag)">
+      <div class="col col-4" >
+        <div class="button r" id="button-1" *ngIf="tag.tagType == 'AI' || tag.tagType == 'DI'" (click)="toggle(tag)">
           <input type="checkbox" class="checkbox" [checked]="!tag.isScanOn" />
           <div class="knobs"></div>
           <div class="layer"></div>

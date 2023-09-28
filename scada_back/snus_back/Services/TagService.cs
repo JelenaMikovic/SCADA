@@ -49,17 +49,7 @@ namespace scada_back.Services
 
         public void UpdateTag(UpdateTagDTO createTagDTO)
         {
-            Tag tag = tagRepository.GetTagById(createTagDTO.Id);
-            tag.Name = createTagDTO.Name;
-            tag.Description = createTagDTO.Description;
-            tag.IOAddress = createTagDTO.IOAddress;
-            tag.Value = createTagDTO.Value;
-            tag.ScanTime = createTagDTO.ScanTime.HasValue ? (int?)createTagDTO.ScanTime.Value : null;
-            tag.IsScanOn = createTagDTO.IsScanOn.HasValue ? (bool?)createTagDTO.IsScanOn.Value : null;
-            tag.LowLimit = createTagDTO.LowLimit.HasValue ? (double?)createTagDTO.LowLimit.Value : null;
-            tag.HighLimit = createTagDTO.HighLimit.HasValue ? (double?)createTagDTO.HighLimit.Value : null;
-            tag.Unit = createTagDTO.Unit;
-            this.tagRepository.UpdateTag(tag);
+            this.scanService.EditTag(createTagDTO);
         }
 
         public List<TagDTO> getAllTags()
@@ -91,7 +81,6 @@ namespace scada_back.Services
             if (tag != null)
             {
                 tag.IsScanOn = !tag.IsScanOn;
-                tagRepository.UpdateTag(tag);
                 scanService.ToggleScan(tagId);
             }
             else

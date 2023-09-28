@@ -90,6 +90,8 @@ export class ReportsComponent implements OnInit{
     this.aiReports = false;
     this.diReports = false;
     this.specTagReport = false;
+    this.tagRecords = [];
+    this.alarmRecords = [];
   }
 
   priorityReportSeleceted(){
@@ -99,6 +101,8 @@ export class ReportsComponent implements OnInit{
     this.aiReports = false;
     this.diReports = false;
     this.specTagReport = false;
+    this.tagRecords = [];
+    this.alarmRecords = [];
   }
 
   tagRecordsTimeReportSelected(){
@@ -108,6 +112,8 @@ export class ReportsComponent implements OnInit{
     this.aiReports = false;
     this.diReports = false;
     this.specTagReport = false;
+    this.tagRecords = [];
+    this.alarmRecords = [];
   }
 
   aiReportsSelected(){

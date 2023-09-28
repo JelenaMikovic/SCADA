@@ -19,9 +19,10 @@ namespace scada_back.Services
             List<DeviceDTO> devices = new List<DeviceDTO>();
             foreach (Device device in deviceRepository.GetAllDevices())
             {
-                if (tagRepository.GetByIOAddress(device.IOAddress) == null ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AO) ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DO))
+                Tag tag = tagRepository.GetByIOAddress(device.IOAddress);
+                if ( tag == null ||
+                    tag.TagType.Equals(TagType.AO) ||
+                    tag.TagType.Equals(TagType.DO))
                     devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
             }
             return devices;
@@ -32,9 +33,10 @@ namespace scada_back.Services
             List<DeviceDTO> devices = new List<DeviceDTO>();
             foreach (Device device in deviceRepository.GetAllDevices())
             {
-                if (tagRepository.GetByIOAddress(device.IOAddress) == null ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.AI) ||
-                    tagRepository.GetByIOAddress(device.IOAddress).TagType.Equals(TagType.DI))
+                Tag tag = tagRepository.GetByIOAddress(device.IOAddress);
+                if (tag == null ||
+                    tag.TagType.Equals(TagType.AI) ||
+                    tag.TagType.Equals(TagType.DI))
                     devices.Add(new DeviceDTO { IOAddress = device.IOAddress, Type = device.Type.ToString(), Value = device.Value });
             }
             return devices;
@@ -42,13 +44,7 @@ namespace scada_back.Services
 
         public void UpdateValues(List<DeviceDTO> devicesDtos)
         {
-            foreach(DeviceDTO deviceDTO in devicesDtos)
-            {
-                if (deviceRepository.GetByIOAddress(deviceDTO.IOAddress) != null)
-                {
-                    this.deviceRepository.UpdateValue(deviceDTO);
-                }
-            }
+            this.deviceRepository.UpdateValue(devicesDtos);
         }
 
         public void CreateDevices(List<DeviceDTO> devicesDtos)
